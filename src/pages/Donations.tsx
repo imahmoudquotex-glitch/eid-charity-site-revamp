@@ -9,13 +9,29 @@ export default function Donations() {
   const { t, lang } = useLang();
   const { toast } = useToast();
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [productQuantities, setProductQuantities] = useState<Record<number, number>>({});
+  const [caseAmounts, setCaseAmounts] = useState<Record<number, string>>({});
+
+  const getProductMessage = (productTitle: string, idx: number) => {
+    const q = productQuantities[idx] || 1;
+    return lang === 'ar' 
+      ? `مرحباً، أريد التبرع بـ: ${productTitle} (العدد: ${q})` 
+      : `Hello, I want to donate for: ${productTitle} (Quantity: ${q})`;
+  };
+
+  const getCaseMessage = (caseTitle: string, idx: number) => {
+    const amount = caseAmounts[idx];
+    return lang === 'ar' 
+      ? `مرحباً، أريد التبرع لحالة: ${caseTitle}${amount ? ` بمبلغ ${amount} جنيه` : ''}` 
+      : `Hello, I want to donate for case: ${caseTitle}${amount ? ` amount ${amount} EGP` : ''}`;
+  };
 
   const copyToClipboard = (text: string, id: string) => {
     navigator.clipboard.writeText(text);
     setCopiedId(id);
     toast({
-      title: lang === "ar" ? "تم النسخ!" : "Copied!",
-      description: lang === "ar" ? "تم نسخ التفاصيل إلى الحافظة." : "Details copied to clipboard.",
+      title: t.donation.copySuccessTitle,
+      description: t.donation.copySuccessDesc,
     });
     setTimeout(() => setCopiedId(null), 2000);
   };
@@ -31,107 +47,28 @@ export default function Donations() {
 
   return (
     <div className="min-h-screen">
-      {/* ── Hero Section (Premium Glass & Image Style) ── */}
-      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-        {/* Background Image with Parallax-like feel */}
-        <div className="absolute inset-0 z-0">
-          <img 
-            src="/donations_hero_bg_1776942911396.png" 
-            alt="Hero Background" 
-            className="w-full h-full object-cover scale-105"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-navy/90 via-navy/60 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white dark:to-navy" />
-        </div>
-
-        {/* Floating Decorative Blobs */}
-        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-royal/20 rounded-full blur-[120px] animate-pulse z-0" />
-        
-        <div className="relative z-10 mx-auto max-w-7xl px-6 w-full py-20">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="space-y-8 animate-fade-up">
-              <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-white/20 glass-dark text-sm font-black tracking-widest text-primary-foreground/90 uppercase">
-                <span className="w-2 h-2 rounded-full bg-royal animate-ping" />
-                {t.donation.title}
-              </div>
-              
-              <h1 className="text-5xl md:text-8xl font-black text-white leading-[1.05] tracking-tight drop-shadow-2xl">
-                {t.donation.sub}
-              </h1>
-              
-              <p className="text-xl md:text-2xl text-white/70 max-w-xl leading-relaxed font-medium">
-                {t.donation.desc}
-              </p>
-              
-              <div className="flex flex-wrap gap-6 pt-4">
-                <a
-                  href="#methods"
-                  className="gradient-royal text-white px-12 py-5 rounded-2xl text-xl font-black shadow-[0_20px_50px_rgba(65,105,225,0.4)] hover:shadow-[0_25px_60px_rgba(65,105,225,0.6)] hover:scale-105 transition-all duration-300"
-                >
-                  {t.donation.btn}
-                </a>
-                <Link
-                  to="/contact?topic=donations"
-                  className="bg-white/10 backdrop-blur-xl border border-white/20 text-white px-12 py-5 rounded-2xl text-xl font-black hover:bg-white/20 transition-all duration-300 flex items-center gap-3"
-                >
-                  <Smartphone className="w-5 h-5" />
-                  {t.nav.contact}
-                </Link>
-              </div>
-
-              {/* Trust Indicators */}
-              <div className="flex items-center gap-8 pt-10 border-t border-white/10 max-w-md">
-                <div className="flex -space-x-3">
-                  {[1,2,3,4].map(i => (
-                    <div key={i} className="w-10 h-10 rounded-full border-2 border-navy bg-royal/20 flex items-center justify-center text-xs text-white font-bold backdrop-blur-sm">
-                      {i}+
-                    </div>
-                  ))}
-                </div>
-                <div className="text-white/60 text-sm font-bold">
-                  <span className="text-white block text-lg">1,500+</span>
-                  {lang === "ar" ? "متبرع وضعوا ثقتهم بنا" : "Donors trust us"}
-                </div>
-              </div>
-            </div>
-
-            {/* Right Side: Hero Glass Card (Impact Highlight) */}
-            <div className="hidden lg:block relative group animate-fade-in animation-delay-500">
-              <div className="absolute -inset-4 bg-royal/20 rounded-[3rem] blur-2xl group-hover:bg-royal/30 transition-all duration-700" />
-              <div className="relative glass-dark p-10 rounded-[3rem] border border-white/10 shadow-3xl space-y-8">
-                <div className="flex items-center justify-between">
-                  <div className="w-16 h-16 rounded-2xl bg-royal/20 text-royal flex items-center justify-center">
-                    <Zap className="w-8 h-8" />
-                  </div>
-                  <span className="px-4 py-1.5 rounded-full bg-green-500/20 text-green-400 text-xs font-black uppercase tracking-widest">
-                    {lang === "ar" ? "تأثير فوري" : "Instant Impact"}
-                  </span>
-                </div>
-                
-                <div className="space-y-2">
-                  <div className="text-white/60 font-bold uppercase tracking-widest text-xs">
-                    {lang === "ar" ? "إجمالي الدعم هذا الشهر" : "Total Support This Month"}
-                  </div>
-                  <div className="text-5xl font-black text-white tracking-tighter">
-                    $45,280.00
-                  </div>
-                </div>
-
-                <div className="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-4">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-white/60">{lang === "ar" ? "الهدف الشهري" : "Monthly Goal"}</span>
-                    <span className="text-royal font-black">85%</span>
-                  </div>
-                  <div className="h-3 w-full bg-white/10 rounded-full overflow-hidden">
-                    <div className="h-full bg-royal w-[85%] rounded-full shadow-[0_0_15px_rgba(65,105,225,0.5)]" />
-                  </div>
-                </div>
-
-                <button className="w-full py-5 rounded-2xl bg-white text-navy font-black text-lg hover:bg-royal hover:text-white transition-all duration-300">
-                  {lang === "ar" ? "شارك في تحقيق الهدف" : "Help reach the goal"}
-                </button>
-              </div>
-            </div>
+      {/* ── Hero ── */}
+      <section className="relative py-32 overflow-hidden">
+        <div className="absolute inset-0 gradient-navy" />
+        <div className="absolute inset-0 opacity-5" style={{ backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
+        <div className="absolute top-10 right-10 w-72 h-72 rounded-full blur-[100px] bg-royal/15 animate-blob" />
+        <div className="absolute bottom-10 left-10 w-72 h-72 rounded-full blur-[100px] bg-primary/10 animate-blob animation-delay-2000" />
+        <div className="relative z-10 mx-auto max-w-4xl px-6 text-center animate-fade-up">
+          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-white/10 glass-dark text-sm font-bold mb-6 text-primary-foreground/80">
+            <span className="w-2 h-2 rounded-full animate-pulse bg-royal" />
+            {t.donation.title}
+          </div>
+          <h1 className="text-4xl md:text-6xl font-black mb-4 tracking-tight text-primary-foreground">
+            {t.donation.sub}
+          </h1>
+          <p className="text-lg max-w-lg mx-auto text-primary-foreground/50">{t.donation.desc}</p>
+          <div className="flex flex-wrap gap-4 pt-8 justify-center">
+            <a
+              href="#methods"
+              className="gradient-royal text-white px-8 py-3.5 rounded-full text-base font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+            >
+              {t.donation.btn}
+            </a>
           </div>
         </div>
       </section>
@@ -183,7 +120,7 @@ export default function Donations() {
             {/* Sub-text decoration */}
             <div className="flex items-center gap-2 text-royal/40 font-bold tracking-[0.2em] text-xs uppercase">
               <span className="w-8 h-px bg-current" />
-              <span>{lang === "ar" ? "صدقة جارية" : "Ongoing Charity"}</span>
+              <span>{t.donation.ongoingCharity}</span>
               <span className="w-8 h-px bg-current" />
             </div>
           </div>
@@ -220,98 +157,260 @@ export default function Donations() {
                     {item.label}
                   </div>
                 </div>
-              </      {/* ── Methods Section (High-End Card Catalog) ── */}
-      <section id="methods" className="py-32 relative overflow-hidden bg-navy/5 dark:bg-navy/20">
-        <div className="absolute inset-0 section-pattern opacity-[0.03]" />
-        
-        <div className="mx-auto max-w-7xl px-6 relative z-10">
-          <div className="text-center max-w-3xl mx-auto mb-20 space-y-6 animate-fade-up">
-            <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-royal/10 text-royal text-xs font-black uppercase tracking-widest">
-              {lang === "ar" ? "ساهم معنا" : "Contribute With Us"}
-            </div>
-            <h2 className="text-4xl md:text-6xl font-black text-foreground tracking-tight">
-              {lang === "ar" ? "طرق التبرع المتاحة" : "Available Donation Methods"}
-            </h2>
-            <p className="text-muted-foreground text-xl leading-relaxed">
-              {lang === "ar" 
-                ? "نوفر لك خيارات آمنة وسهلة لتصل تبرعاتك إلى مستحقيها بأسرع وقت ممكن." 
-                : "We provide secure and easy options to ensure your donations reach those in need as quickly as possible."}
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {t.donation.methods.map((method, idx) => (
-              <div 
-                key={idx}
-                className="group relative bg-white dark:bg-card/40 rounded-[3rem] p-10 border border-royal/5 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.05)] hover:shadow-[0_30px_70px_-20px_rgba(65,105,225,0.15)] hover:border-royal/30 transition-all duration-500 flex flex-col items-center text-center overflow-hidden"
-              >
-                {/* Visual Accent */}
-                <div className="absolute top-0 inset-x-0 h-2 bg-gradient-to-r from-transparent via-royal/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                
-                <div className="w-24 h-24 rounded-3xl bg-royal/5 text-royal flex items-center justify-center mb-8 group-hover:scale-110 group-hover:bg-royal group-hover:text-white transition-all duration-500 shadow-inner">
-                  {getIcon(method.icon)}
-                </div>
-
-                <div className="space-y-4 mb-10">
-                  <h3 className="text-3xl font-black text-foreground tracking-tight">{method.name}</h3>
-                  <div className="h-1 w-12 bg-royal/20 mx-auto rounded-full group-hover:w-20 group-hover:bg-royal transition-all duration-500" />
-                  <p className="text-muted-foreground font-medium leading-relaxed">
-                    {lang === "ar" 
-                      ? "وسيلة آمنة ومعتمدة رسمياً للتحويل المباشر." 
-                      : "A secure and officially approved method for direct transfer."}
-                  </p>
-                </div>
-
-                <div className="w-full mt-auto space-y-6">
-                  <div 
-                    className="relative group/copy cursor-pointer"
-                    onClick={() => copyToClipboard(method.detail, `method-${idx}`)}
-                  >
-                    <div className="bg-navy/[0.03] dark:bg-white/[0.03] rounded-2xl p-6 border border-royal/5 group-hover/copy:border-royal/30 transition-all">
-                      <div className="flex items-center justify-between mb-3">
-                        <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/60">
-                          {lang === "ar" ? "رقم الحساب / التفاصيل" : "Account No. / Details"}
-                        </span>
-                        <Copy className="w-4 h-4 text-royal opacity-40 group-hover/copy:opacity-100 transition-opacity" />
-                      </div>
-                      <div className="font-mono text-xl font-black text-royal break-all tracking-widest" dir="ltr">
-                        {method.detail}
-                      </div>
-                    </div>
-                  </div>
-
-                  <button
-                    onClick={() => copyToClipboard(method.detail, `method-${idx}`)}
-                    className={`w-full py-5 rounded-2xl font-black text-lg transition-all duration-300 flex items-center justify-center gap-3 ${
-                      copiedId === `method-${idx}`
-                        ? "bg-green-500 text-white shadow-xl shadow-green-500/30"
-                        : "bg-royal text-white shadow-xl shadow-royal/20 hover:shadow-royal/40 hover:-translate-y-1"
-                    }`}
-                  >
-                    {copiedId === `method-${idx}` ? (
-                      <>
-                        <Check className="w-6 h-6 stroke-[3]" />
-                        <span>{lang === "ar" ? "تم النسخ" : "Copied"}</span>
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="w-6 h-6" />
-                        <span>{lang === "ar" ? "نسخ التفاصيل" : "Copy Details"}</span>
-                      </>
-                    )}
-                  </button>
-                </div>
               </div>
             ))}
           </div>
         </div>
-      </section>"ar" ? "نسخ التفاصيل" : "Copy Details"}</span>
-                      </>
-                    )}
-                  </button>
+      </section>
+
+      {/* ── Integrated Donations Section (Products & Methods) ── */}
+      <section id="methods" className="py-32 relative overflow-hidden bg-navy/5 dark:bg-navy/20">
+        <div className="absolute inset-0 section-pattern opacity-[0.03]" />
+        
+        {/* Decorative Floating Orbs */}
+        <div className="absolute top-20 left-10 w-96 h-96 bg-royal/10 rounded-full blur-[120px] animate-blob pointer-events-none" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary/10 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
+
+        <div className="mx-auto max-w-7xl px-6 relative z-10">
+          <div className="text-center max-w-3xl mx-auto mb-20 space-y-6 animate-fade-up">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-royal/10 text-royal text-sm font-black uppercase tracking-widest border border-royal/20 shadow-sm">
+              <Zap className="w-4 h-4 animate-pulse" />
+              {t.donation.contributeTitle}
+            </div>
+            <h2 className="text-4xl md:text-6xl font-black text-foreground tracking-tight drop-shadow-sm">
+              {t.donation.methodsTitle}
+            </h2>
+            <p className="text-muted-foreground text-xl leading-relaxed">
+              {t.donation.methodsDesc}
+            </p>
+          </div>
+
+          {/* Products Grid (The core of the donation items) */}
+          <div className="mb-24">
+            <div className="flex items-center justify-between mb-10">
+              <h3 className="text-3xl font-black text-foreground flex items-center gap-3">
+                <span className="w-2 h-8 rounded-full bg-royal"></span>
+                {t.donation.productsTitle}
+              </h3>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
+              {t.donation.products.map((product, idx) => (
+                <div 
+                  key={idx}
+                  className="group relative bg-white dark:bg-card/60 rounded-[2.5rem] p-8 border border-royal/10 shadow-[0_10px_40px_-20px_rgba(0,0,0,0.08)] hover:shadow-[0_20px_60px_-20px_rgba(65,105,225,0.25)] hover:border-royal/40 hover:-translate-y-3 transition-all duration-500 overflow-hidden flex flex-col justify-between backdrop-blur-sm"
+                  style={{ animationDelay: `${(idx % 4) * 100}ms` }}
+                >
+                  {/* Decorative blob */}
+                  <div className="absolute -top-16 -right-16 w-48 h-48 bg-gradient-to-br from-royal/10 to-transparent rounded-full blur-3xl group-hover:scale-150 group-hover:bg-royal/20 transition-all duration-700 pointer-events-none" />
+                  
+                  <div>
+                    <div className="text-7xl mb-8 relative z-10 group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-500 drop-shadow-xl inline-block">
+                      {product.icon}
+                    </div>
+                    
+                    <h3 className="text-2xl font-black text-foreground mb-4 relative z-10 tracking-tight group-hover:text-royal transition-colors duration-300">{product.title}</h3>
+                    
+                    <div className="inline-flex items-center gap-2 bg-navy/5 dark:bg-white/5 text-royal font-black text-lg mb-5 px-5 py-2 rounded-2xl relative z-10 border border-royal/10 group-hover:bg-royal/10 transition-colors shadow-sm">
+                      <Landmark className="w-5 h-5" />
+                      {product.price}
+                    </div>
+                    
+                    <p className="text-muted-foreground font-medium leading-relaxed mb-6 relative z-10 text-sm md:text-base flex-grow">
+                      {product.desc}
+                    </p>
+
+                    <div className="flex items-center justify-between mb-6 relative z-10">
+                      <span className="text-sm font-bold text-foreground">{t.donation.quantityLabel}:</span>
+                      <div className="flex items-center gap-3 bg-navy/5 dark:bg-white/5 rounded-xl px-2 py-1 border border-royal/10">
+                        <button 
+                          onClick={() => setProductQuantities(prev => ({...prev, [idx]: Math.max(1, (prev[idx] || 1) - 1)}))}
+                          className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white dark:hover:bg-card hover:shadow-sm text-foreground transition-all"
+                        >
+                          -
+                        </button>
+                        <span className="font-bold w-6 text-center">{productQuantities[idx] || 1}</span>
+                        <button 
+                          onClick={() => setProductQuantities(prev => ({...prev, [idx]: (prev[idx] || 1) + 1}))}
+                          className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white dark:hover:bg-card hover:shadow-sm text-foreground transition-all"
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <a
+                    href={`https://wa.me/${t.footer.phone.replace(/\s/g, '')}?text=${encodeURIComponent(getProductMessage(product.title, idx))}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-4 rounded-2xl font-black text-lg transition-all duration-500 flex items-center justify-center gap-3 bg-navy/5 text-foreground hover:bg-royal hover:text-white shadow-none hover:shadow-xl hover:shadow-royal/30 relative z-10 group/btn border border-transparent hover:border-royal/50"
+                  >
+                    <span>{t.donation.productsBtn}</span>
+                    <div className="w-8 h-8 rounded-full bg-black/5 group-hover/btn:bg-white/20 flex items-center justify-center group-hover/btn:scale-110 transition-all duration-300">
+                      <Smartphone className="w-4 h-4 fill-current" />
+                    </div>
+                  </a>
                 </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Humanitarian Cases Section ── */}
+      <section id="cases" className="py-32 relative overflow-hidden bg-white dark:bg-card">
+        <div className="absolute inset-0 bg-navy/[0.01] dark:bg-white/[0.01]" />
+        
+        <div className="mx-auto max-w-7xl px-6 relative z-10">
+          <div className="text-center max-w-3xl mx-auto mb-20 space-y-6 animate-fade-up">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-royal/10 text-royal text-sm font-black uppercase tracking-widest border border-royal/20 shadow-sm">
+              <Landmark className="w-4 h-4 animate-pulse" />
+              {t.donation.casesTitle}
+            </div>
+            <h2 className="text-4xl md:text-6xl font-black text-foreground tracking-tight drop-shadow-sm">
+              {t.donation.casesSub}
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {t.donation.cases.map((c, idx) => {
+              const progress = c.goal > 0 ? Math.min(100, Math.round((c.collected / c.goal) * 100)) : 0;
+              return (
+                <div 
+                  key={`case-${idx}`}
+                  className="group bg-white dark:bg-card/60 rounded-[2.5rem] border border-royal/10 shadow-[0_10px_40px_-20px_rgba(0,0,0,0.08)] hover:shadow-[0_20px_60px_-20px_rgba(65,105,225,0.25)] hover:border-royal/40 transition-all duration-500 overflow-hidden flex flex-col backdrop-blur-sm"
+                >
+                  <div className="relative h-56 overflow-hidden bg-navy/5">
+                    <div className="absolute inset-0 gradient-royal flex items-center justify-center p-6 text-center group-hover:scale-105 transition-transform duration-700">
+                      <h3 className="text-white font-black text-2xl drop-shadow-md leading-snug">{c.title}</h3>
+                    </div>
+                    
+                    <div className="absolute top-0 left-0 right-0 bg-gradient-to-b from-black/80 to-transparent p-6">
+                      <div className="flex justify-between items-center text-white text-sm font-bold mb-3">
+                        <span className="bg-green-500/90 px-3 py-1 rounded-full text-xs">{progress}%</span>
+                        <span dir="ltr" className="text-white/90 drop-shadow-md">
+                          {c.collected.toLocaleString()} / {c.goal.toLocaleString()} {lang === 'ar' ? 'جنيه' : 'EGP'}
+                        </span>
+                      </div>
+                      <div className="w-full bg-white/20 h-2 rounded-full overflow-hidden backdrop-blur-sm">
+                        <div className="bg-green-500 h-full rounded-full transition-all duration-1000 ease-out" style={{ width: `${progress}%` }} />
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="p-8 flex flex-col flex-grow relative">
+                    <h3 className="text-xl font-black text-foreground mb-3 tracking-tight group-hover:text-royal transition-colors">{c.title}</h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed mb-8 flex-grow">
+                      {c.desc}
+                    </p>
+
+                    <div className="space-y-5">
+                      <div className="flex items-center gap-3">
+                        <div className="relative flex-1">
+                          <input 
+                            type="number"
+                            placeholder={t.donation.donateAmountLabel}
+                            className="w-full bg-navy/5 dark:bg-white/5 border border-royal/10 rounded-2xl px-5 py-4 text-base font-bold focus:outline-none focus:border-royal/50 focus:bg-transparent transition-colors placeholder:text-muted-foreground/50"
+                            value={caseAmounts[idx] || ""}
+                            onChange={(e) => setCaseAmounts(prev => ({...prev, [idx]: e.target.value}))}
+                          />
+                        </div>
+                        <span className="font-bold text-royal bg-royal/10 px-4 py-4 rounded-2xl whitespace-nowrap text-sm border border-royal/20">
+                          {lang === 'ar' ? 'جنيه' : 'EGP'}
+                        </span>
+                      </div>
+                      
+                      <a
+                        href={`https://wa.me/${t.footer.phone.replace(/\s/g, '')}?text=${encodeURIComponent(getCaseMessage(c.title, idx))}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full py-4 rounded-2xl font-black text-lg transition-all duration-300 flex items-center justify-center gap-2 bg-royal text-white shadow-xl shadow-royal/20 hover:shadow-royal/40 hover:-translate-y-1"
+                      >
+                        {t.donation.productsBtn}
+                        <Landmark className="w-5 h-5 fill-current" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ── General Payment Methods (Bank, Fawry, Vodafone Cash) ── */}
+      <section id="payment-methods" className="py-32 relative overflow-hidden bg-navy/5 dark:bg-navy/20">
+        <div className="absolute inset-0 section-pattern opacity-[0.03]" />
+        <div className="mx-auto max-w-7xl px-6 relative z-10">
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-b from-royal/5 to-transparent rounded-[4rem] blur-2xl pointer-events-none" />
+            <div className="relative z-10 bg-white/50 dark:bg-card/20 backdrop-blur-xl border border-royal/10 rounded-[3.5rem] p-8 md:p-16 shadow-2xl">
+              <div className="text-center mb-12">
+                <h3 className="text-3xl font-black text-foreground tracking-tight">{lang === 'ar' ? 'طرق التبرع المباشرة (حسابات بنكية ومحافظ)' : 'Direct Donation Methods (Banks & Wallets)'}</h3>
+                <p className="text-muted-foreground mt-4 text-lg">{lang === 'ar' ? 'يمكنك أيضاً التبرع بأي مبلغ مفتوح عبر القنوات الرسمية التالية' : 'You can also donate any open amount via the following official channels'}</p>
               </div>
-            ))}
+              
+              <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
+                {t.donation.methods.map((method, idx) => (
+                  <div 
+                    key={`method-${idx}`}
+                    className="group bg-white dark:bg-card rounded-[2.5rem] p-8 border border-royal/5 hover:border-royal/30 shadow-lg hover:shadow-2xl transition-all duration-500 flex flex-col items-center text-center hover:-translate-y-2 relative overflow-hidden"
+                  >
+                    <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-transparent via-royal/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    
+                    <div className="w-20 h-20 rounded-3xl bg-navy/5 text-royal flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-royal group-hover:text-white transition-all duration-500 shadow-inner">
+                      {getIcon(method.icon)}
+                    </div>
+
+                    <div className="space-y-3 mb-8 w-full">
+                      <h4 className="text-2xl font-black text-foreground tracking-tight">{method.name}</h4>
+                      <p className="text-muted-foreground font-medium text-sm">
+                        {t.donation.methodNotice}
+                      </p>
+                    </div>
+
+                    <div className="w-full mt-auto space-y-4">
+                      <div 
+                        className="bg-navy/[0.03] dark:bg-white/[0.03] rounded-2xl p-4 border border-royal/5 transition-all cursor-pointer group/copy hover:border-royal/30 hover:bg-royal/5"
+                        onClick={() => copyToClipboard(method.detail, `method-${idx}`)}
+                      >
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/60">
+                            {t.donation.accountDetails}
+                          </span>
+                          <Copy className="w-4 h-4 text-royal opacity-40 group-hover/copy:opacity-100 transition-opacity" />
+                        </div>
+                        <div className="font-mono text-lg font-black text-royal break-all tracking-widest" dir="ltr">
+                          {method.detail}
+                        </div>
+                      </div>
+
+                      <button
+                        onClick={() => copyToClipboard(method.detail, `method-${idx}`)}
+                        className={`w-full py-4 rounded-xl font-black text-sm transition-all duration-300 flex items-center justify-center gap-2 ${
+                          copiedId === `method-${idx}`
+                            ? "bg-green-500 text-white shadow-lg shadow-green-500/20"
+                            : "bg-navy/5 text-foreground hover:bg-royal hover:text-white"
+                        }`}
+                      >
+                        {copiedId === `method-${idx}` ? (
+                          <>
+                            <Check className="w-5 h-5 stroke-[3]" />
+                            <span>{t.donation.copiedBtn}</span>
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="w-5 h-5" />
+                            <span>{t.donation.copyBtn}</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -330,15 +429,13 @@ export default function Donations() {
                 <div className="space-y-4">
                   <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-green-500/10 text-green-600 dark:text-green-400 text-sm font-black uppercase tracking-widest">
                     <Check className="w-4 h-4" />
-                    {lang === "ar" ? "شفافية مطلقة" : "Absolute Transparency"}
+                    {t.donation.transparencyTitle}
                   </div>
                   <h2 className="text-4xl md:text-5xl font-black text-foreground tracking-tight">
-                    {lang === "ar" ? "أين تذهب تبرعاتك؟" : "Where do your donations go?"}
+                    {t.donation.whereGoTitle}
                   </h2>
                   <p className="text-muted-foreground text-lg leading-relaxed max-w-xl">
-                    {lang === "ar" 
-                      ? "نحن نؤمن بالشفافية الكاملة كأحد أركان عملنا. كل مساهمة تقوم بها يتم توثيقها وتوجيهها بدقة للمسار الصحيح."
-                      : "We believe in full transparency as a cornerstone of our work. Every contribution you make is documented and directed precisely to the right path."}
+                    {t.donation.transparencyDesc}
                   </p>
                 </div>
 
@@ -363,7 +460,7 @@ export default function Donations() {
                 <div className="relative z-10 space-y-6">
                   <div className="relative inline-block">
                     <div className="text-7xl md:text-9xl font-black text-royal drop-shadow-[0_0_30px_rgba(65,105,225,0.3)]">
-                      100%
+                      {t.donation.transparencyPercent}
                     </div>
                     <div className="absolute -top-4 -right-4 w-12 h-12 bg-green-500 text-white rounded-full flex items-center justify-center shadow-lg animate-bounce">
                       <Check className="w-6 h-6 stroke-[3]" />
@@ -372,10 +469,10 @@ export default function Donations() {
                   
                   <div className="space-y-2">
                     <div className="text-2xl md:text-3xl font-black text-foreground">
-                      {lang === "ar" ? "أمانة ومسؤولية" : "Trust & Responsibility"}
+                      {t.donation.trustTitle}
                     </div>
                     <p className="text-muted-foreground font-medium text-lg">
-                      {lang === "ar" ? "من التبرعات تذهب مباشرة للمستحقين" : "Of donations go directly to those in need"}
+                      {t.donation.trustSub}
                     </p>
                   </div>
 
@@ -383,18 +480,16 @@ export default function Donations() {
                     {/* Registration Card / Badge */}
                     <div className="inline-flex flex-col items-center gap-3 px-8 py-6 rounded-3xl bg-white dark:bg-black/40 border border-royal/20 shadow-xl shadow-royal/10 relative group hover:scale-105 transition-transform duration-500">
                       <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-royal text-white text-[10px] font-black uppercase tracking-widest">
-                        {lang === "ar" ? "مؤسسة رسمية" : "Official NGO"}
+                        {t.donation.officialNGO}
                       </div>
                       <div className="text-xs text-muted-foreground font-bold uppercase tracking-tighter opacity-60">
-                        {lang === "ar" ? "رقم الإشهار الرسمي" : "Official Registration No."}
+                        {t.donation.regNo}
                       </div>
                       <div className="text-xl md:text-2xl font-black text-royal tracking-widest font-mono">
-                        123456
+                        {t.donation.regNoVal}
                       </div>
                       <div className="text-[10px] text-muted-foreground font-medium">
-                        {lang === "ar" 
-                          ? "مؤسسة قلب الحياة للتنمية" 
-                          : "Qalb El Hayah Foundation for Development"}
+                        {t.donation.foundationName}
                       </div>
                     </div>
                   </div>
@@ -418,17 +513,15 @@ export default function Donations() {
             <div className="relative z-10 space-y-8 animate-fade-up">
               <div className="inline-flex items-center gap-3 px-6 py-2 rounded-full border border-white/20 glass-dark text-white/80 text-sm font-bold tracking-[0.2em] uppercase mx-auto">
                 <span className="w-2 h-2 rounded-full bg-royal animate-ping" />
-                {lang === "ar" ? "نحن بانتظارك" : "We Are Waiting"}
+                {t.donation.waitingTitle}
               </div>
               
               <h2 className="text-4xl md:text-7xl font-black text-white tracking-tight leading-[1.1]">
-                {lang === "ar" ? "هل لديك استفسار آخر؟" : "Have another question?"}
+                {t.donation.haveQuestion}
               </h2>
               
               <p className="text-xl text-white/60 max-w-2xl mx-auto leading-relaxed">
-                {lang === "ar" 
-                  ? "فريقنا المتخصص متاح دائماً للرد على كافة تساؤلاتكم حول آلية التبرع أو الحالات التي تحتاج لدعم عاجل."
-                  : "Our specialized team is always available to answer all your questions about the donation process or cases needing urgent support."}
+                {t.donation.waitingDesc}
               </p>
 
               <div className="pt-6 flex flex-col sm:flex-row items-center justify-center gap-6">
@@ -448,7 +541,7 @@ export default function Donations() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-3 text-white/80 hover:text-white font-bold transition-colors border-b-2 border-white/10 hover:border-royal pb-1"
                 >
-                  {lang === "ar" ? "دردشة واتساب مباشرة" : "Direct WhatsApp Chat"}
+                  {t.donation.directWhatsapp}
                 </a>
               </div>
             </div>

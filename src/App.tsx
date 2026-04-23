@@ -15,8 +15,8 @@ const About = lazy(() => import("./pages/About.tsx"));
 const Goals = lazy(() => import("./pages/Goals.tsx"));
 const Services = lazy(() => import("./pages/Services.tsx"));
 const Programs = lazy(() => import("./pages/Programs.tsx"));
-const Contact = lazy(() => import("./pages/Contact.tsx"));
 const Donations = lazy(() => import("./pages/Donations.tsx"));
+const Contact = lazy(() => import("./pages/Contact.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 
 // ✅ QueryClient بإعدادات إنتاج مناسبة
@@ -38,27 +38,7 @@ function PageLoader() {
   );
 }
 
-function RouteWarmup() {
-  useEffect(() => {
-    const warm = () => {
-      void import("./pages/About.tsx");
-      void import("./pages/Goals.tsx");
-      void import("./pages/Services.tsx");
-      void import("./pages/Programs.tsx");
-      void import("./pages/Donations.tsx");
-      void import("./pages/Contact.tsx");
-    };
 
-    const idle = window.requestIdleCallback?.(warm, { timeout: 1200 });
-    if (!idle) {
-      const timer = window.setTimeout(warm, 600);
-      return () => window.clearTimeout(timer);
-    }
-    return () => window.cancelIdleCallback?.(idle);
-  }, []);
-
-  return null;
-}
 
 const App = () => (
   <LanguageProvider>
@@ -68,7 +48,7 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <RouteWarmup />
+
             <ScrollToTop />
             <Suspense fallback={<PageLoader />}>
               <Routes>

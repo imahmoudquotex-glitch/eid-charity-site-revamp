@@ -2,12 +2,8 @@ import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 import FloatingWhatsApp from "./FloatingWhatsApp";
+import ErrorBoundary from "./ErrorBoundary";
 
-/**
- * Layout مشترك لكل الصفحات — يحتوي على Header + Footer + FloatingWhatsApp
- * يمنع تكرار هذه المكونات في ٧ ملفات
- * #lang-transition-root receives opacity transitions from LanguageContext switchLang
- */
 export default function Layout() {
   return (
     <div
@@ -16,7 +12,9 @@ export default function Layout() {
     >
       <Header />
       <main className="page-enter">
-        <Outlet />
+        <ErrorBoundary>
+          <Outlet />
+        </ErrorBoundary>
       </main>
       <Footer />
       <FloatingWhatsApp />

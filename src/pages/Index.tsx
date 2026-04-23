@@ -73,12 +73,12 @@ function AnimatedCounter({
 
 /* ── Partners data ───────────────────────────────────── */
 const partners = [
-  { name: "وزارة التضامن الاجتماعي", nameEn: "Ministry of Social Solidarity", icon: "🏛️" },
-  { name: "الهلال الأحمر المصري", nameEn: "Egyptian Red Crescent", icon: "🏥" },
-  { name: "جمعية رسالة", nameEn: "Resala Association", icon: "🤝" },
-  { name: "مؤسسة مصر الخير", nameEn: "Misr El Kheir Foundation", icon: "💛" },
-  { name: "يونيسف مصر", nameEn: "UNICEF Egypt", icon: "🌍" },
-  { name: "بنك الطعام المصري", nameEn: "Egyptian Food Bank", icon: "🍞" },
+  { img: "/logos/unicef.jpg", name: "يونيسف مصر", nameEn: "UNICEF Egypt" },
+  { img: "/logos/partner6.png", name: "بنك الطعام المصري", nameEn: "Egyptian Food Bank" },
+  { img: "/logos/partner4.jpg", name: "مؤسسة مصر الخير", nameEn: "Misr El Kheir Foundation" },
+  { img: "/logos/partner3.png", name: "جمعية رسالة", nameEn: "Resala Association" },
+  { img: "/logos/partner2.jpeg", name: "الهلال الأحمر المصري", nameEn: "Egyptian Red Crescent" },
+  { img: "/logos/partner1.jpeg", name: "وزارة التضامن الاجتماعي", nameEn: "Ministry of Social Solidarity" },
 ];
 
 /* ── Main Page ───────────────────────────────────────── */
@@ -198,14 +198,20 @@ export default function Index() {
 
             <div className="flex flex-wrap gap-3 animate-slide-up animate-slide-up-delay-4">
               <Link
+                to="/donations"
+                className="inline-flex items-center gap-2 gradient-royal text-primary-foreground px-7 py-3.5 rounded-full text-base font-bold shadow-lg hover:shadow-xl hover:scale-[1.06] transition-all duration-300 btn-glow glow-pulse-blue"
+              >
+                {lang === 'ar' ? 'تبرع الآن' : 'Donate Now'}
+              </Link>
+              <Link
                 to="/services#booking"
-                className="inline-flex items-center gap-2 gradient-red-blue text-primary-foreground px-7 py-3.5 rounded-full text-base shadow-lg hover:shadow-xl hover:scale-[1.06] transition-all duration-300 btn-glow btn-ripple glow-pulse-red"
+                className="inline-flex items-center gap-2 gradient-red-blue text-primary-foreground px-7 py-3.5 rounded-full text-base font-bold shadow-lg hover:shadow-xl hover:scale-[1.06] transition-all duration-300 btn-glow btn-ripple glow-pulse-red"
               >
                 {t.hero.book}
               </Link>
               <Link
                 to="/services"
-                className="inline-flex items-center gap-2 glass-dark border border-white/20 text-primary-foreground px-7 py-3.5 rounded-full text-base hover:bg-white/20 hover:scale-[1.06] transition-all duration-300"
+                className="inline-flex items-center gap-2 glass-dark border border-white/20 text-primary-foreground px-7 py-3.5 rounded-full text-base font-bold hover:bg-white/20 hover:scale-[1.06] transition-all duration-300"
               >
                 {t.hero.explore}
               </Link>
@@ -432,16 +438,20 @@ export default function Index() {
           <RevealSection>
             <SectionTitle title={t.partners.title} subtitle={t.partners.sub} />
           </RevealSection>
-          <StaggerGrid className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-            {partners.map((partner) => (
+          <StaggerGrid className="flex flex-wrap justify-center gap-8 items-center">
+            {partners.map((partner, idx) => (
               <div
-                key={partner.name}
-                className="bg-card/70 backdrop-blur-md rounded-3xl p-6 text-center shadow-sm border border-border/50 card-hover group shimmer-border shimmer-sweep tilt-card"
+                key={idx}
+                className="bg-white dark:bg-card/70 backdrop-blur-md rounded-[2rem] p-6 flex flex-col justify-center items-center shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-royal/10 card-hover group shimmer-border shimmer-sweep hover:shadow-[0_20px_40px_rgb(37,99,235,0.1)] transition-all duration-500 w-48 h-48 md:w-56 md:h-56"
               >
-                <div className="text-5xl mb-4 group-hover:scale-125 group-hover:-rotate-6 transition-transform duration-500 float-up-down">
-                  {partner.icon}
+                <div className="flex-1 flex items-center justify-center w-full mb-3">
+                  <img 
+                    src={partner.img} 
+                    alt={partner.nameEn} 
+                    className="max-w-full max-h-20 object-contain mix-blend-multiply dark:mix-blend-normal group-hover:scale-110 transition-transform duration-500" 
+                  />
                 </div>
-                <p className="text-sm font-bold text-muted-foreground group-hover:text-royal transition-colors underline-grow">
+                <p className="text-[13px] font-black text-foreground/70 group-hover:text-royal transition-colors w-full text-center mt-auto border-t border-border/50 pt-3">
                   {lang === "ar" ? partner.name : partner.nameEn}
                 </p>
               </div>
