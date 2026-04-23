@@ -41,9 +41,9 @@ export default function Header() {
       <header className={`fixed w-full top-0 z-50 transition-all duration-300 ${scrolled ? "glass shadow-lg border-b border-border/30" : "bg-background/90 lg:bg-background/80 lg:backdrop-blur-sm"}`}>
         <div className={`mx-auto max-w-7xl ${lang === "ar" ? "pr-2 pl-4 sm:pr-3 sm:pl-6 lg:pr-4 lg:pl-8" : "pl-2 pr-4 sm:pl-3 sm:pr-6 lg:pl-4 lg:pr-8"}`}>
           <div className="flex h-[4.25rem] lg:h-[4.5rem] items-center justify-between">
-            <Link to="/" className={`flex items-center gap-3 shrink-0 group transition-transform duration-300 hover:scale-[1.02] ${lang === "ar" ? "-mr-1 lg:-mr-2 translate-y-[-2px]" : "translate-y-[-2px]"}`}>
+            <Link to="/" className={`flex items-center gap-3 shrink-0 group transition-transform duration-300 hover:scale-[1.02] ${lang === "ar" ? "-mr-1 lg:-mr-2 translate-y-[-3px]" : "translate-y-[-3px]"}`}>
               <div className="relative">
-                <img src={logo} alt={lang === "ar" ? "مؤسسة قلب الحياة للتنمية" : "Qalb El Hayah Foundation"} className="h-12 w-12 lg:h-14 lg:w-14 group-hover:rotate-3 transition-all duration-500 drop-shadow-xl object-contain" width={56} height={56} />
+                <img src={logo} alt={lang === "ar" ? "مؤسسة قلب الحياة للتنمية" : "Qalb El Hayah Foundation"} className="h-13 w-13 lg:h-16 lg:w-16 group-hover:rotate-3 transition-all duration-500 drop-shadow-xl object-contain" width={64} height={64} />
                 <div className="absolute -inset-2 rounded-full bg-royal/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
               <div className={`${lang === "ar" ? "text-right" : "text-left"} max-w-[10.5rem] sm:max-w-none`}>
