@@ -446,19 +446,19 @@ const translations: Record<Language, Translation> = {
         {
           title: "برنامج التأهيل المنزلي",
           desc: "نصل بخدماتنا للأطفال في منازلهم لضمان الاستمرارية وتدريب الأهل في بيئتهم الطبيعية.",
-          img: "/assets/program-home-rehab.jpg",
+          img: "https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=800&h=600&fit=crop&q=80",
           stats: [{ label: "زيارة منزلية", value: "٥٠٠+" }]
         },
         { 
           title: "مبادرة 'أنا أستطيع' للتأهيل", 
           desc: "برنامج متخصص لتجهيز الأطفال للالتحاق بالمدارس العادية والتعامل الفعال مع أقرانهم.", 
-          img: "/assets/program-i-can.jpg",
+          img: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=800&h=600&fit=crop&q=80",
           stats: [{ label: "طفل مؤهل", value: "١٢٠+" }]
         },
         { 
           title: "مشغل الوفاء والأمل", 
           desc: "توفير فرص تدريب مهني وفرص عمل لذوي الهمم في مجالات الحرف اليدوية والبسيطة.", 
-          img: "/assets/program-workshop.jpg",
+          img: "https://images.unsplash.com/photo-1452860606245-08f31258acab?w=800&h=600&fit=crop&q=80",
           stats: [{ label: "فرصة عمل", value: "٨٠+" }]
         },
       ],
@@ -750,19 +750,19 @@ const translations: Record<Language, Translation> = {
         {
           title: "Home Rehab Program",
           desc: "We reach children at home to ensure continuity and train parents in their natural environment.",
-          img: "/assets/program-home-rehab.jpg",
+          img: "https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=800&h=600&fit=crop&q=80",
           stats: [{ label: "Home Visits", value: "500+" }]
         },
         { 
           title: "I Can Initiative", 
           desc: "A specialized program to prepare children for school inclusion and effective peer interaction.", 
-          img: "/assets/program-i-can.jpg",
+          img: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=800&h=600&fit=crop&q=80",
           stats: [{ label: "Kids Integrated", value: "120+" }]
         },
         { 
           title: "Wafaa Workshop", 
           desc: "Providing vocational training and jobs for people with special needs in handicrafts.", 
-          img: "/assets/program-workshop.jpg",
+          img: "https://images.unsplash.com/photo-1452860606245-08f31258acab?w=800&h=600&fit=crop&q=80",
           stats: [{ label: "Job Opps", value: "80+" }]
         },
       ],

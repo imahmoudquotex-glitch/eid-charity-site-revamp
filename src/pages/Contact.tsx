@@ -6,36 +6,7 @@ import { buildWhatsAppUrl, WHATSAPP, SOCIAL, isSafeExternalUrl } from "@/lib/con
 import { usePageMeta } from "@/hooks/usePageMeta";
 import { useLang } from "@/contexts/LanguageContext";
 
-/* ── Branch map data (OpenStreetMap embeds – no API key) ── */
-const BRANCH_MAPS = [
-  {
-    nameAr: "فرع وسط البلد",
-    nameEn: "Downtown Branch",
-    addressAr: "٦٤ شارع البستان - ميدان محمد فريد - عابدين - القاهرة",
-    addressEn: "64 El Bostan St - Mohamed Farid Sq - Abdeen - Cairo",
-    embed: "https://www.openstreetmap.org/export/embed.html?bbox=31.235%2C30.041%2C31.245%2C30.048&layer=mapnik&marker=30.0445%2C31.2401",
-    link: "https://maps.google.com/maps?q=30.0445,31.2401",
-    hours: "السبت – الخميس: ٩ ص – ٥ م",
-  },
-  {
-    nameAr: "فرع ضياء",
-    nameEn: "Dieaa Branch",
-    addressAr: "٢٤ شارع محمد إبراهيم المطبعه – متفرع من شارع ضياء – بين فيصل والهرم",
-    addressEn: "24 Mohamed Ibrahim Matbaa St – Off Dieaa St – Between Faisal & Haram",
-    embed: "https://www.openstreetmap.org/export/embed.html?bbox=31.195%2C29.998%2C31.212%2C30.010&layer=mapnik&marker=30.004%2C31.203",
-    link: "https://maps.google.com/maps?q=30.004,31.203",
-    hours: "السبت – الخميس: ٩ ص – ٥ م",
-  },
-  {
-    nameAr: "فرع الوفاء والأمل",
-    nameEn: "Wafaa & Amal Branch",
-    addressAr: "١ شارع عبد العزيز المغربي - من مصطفى المصري - الجيزة",
-    addressEn: "1 Abdel Aziz El Maghrebi St – Off Mostafa El Masry – Giza",
-    embed: "https://www.openstreetmap.org/export/embed.html?bbox=31.196%2C30.020%2C31.210%2C30.030&layer=mapnik&marker=30.025%2C31.203",
-    link: "https://maps.google.com/maps?q=30.025,31.203",
-    hours: "السبت – الخميس: ٩ ص – ٥ م",
-  },
-];
+
 
 /* ── Contact info SVG icons ── */
 const PhoneIcon = () => (
@@ -89,8 +60,6 @@ export default function ContactPage() {
     { icon: <PhoneIcon />, title: t.contact.info.complaints, value: "01080036533", link: buildWhatsAppUrl(WHATSAPP.COMPLAINTS), color: "text-blue-400", bg: "bg-blue-500/10 border-blue-500/20 group-hover:bg-blue-500/20" },
     { icon: <ClockIcon />, title: t.contact.info.hours, value: t.contact.info.hoursVal, link: "", color: "text-amber-400", bg: "bg-amber-500/10 border-amber-500/20 group-hover:bg-amber-500/20" },
   ];
-
-  const branch = BRANCH_MAPS[activeMap];
 
   return (
     <>
@@ -208,69 +177,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* ── Interactive Map ── */}
-      <section className="py-16 section-blue-tint">
-        <div className="mx-auto max-w-7xl px-6">
-          <RevealSection>
-            <SectionTitle
-              title={lang === "ar" ? "فروعنا على الخريطة" : "Our Branches on the Map"}
-              subtitle={lang === "ar" ? "اختر الفرع لعرض موقعه التفاعلي" : "Select a branch to view its location"}
-            />
-          </RevealSection>
 
-          {/* Branch tabs */}
-          <div className="flex flex-wrap justify-center gap-3 mb-8">
-            {BRANCH_MAPS.map((b, i) => (
-              <button key={i} onClick={() => setActiveMap(i)}
-                className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 border ${
-                  activeMap === i
-                    ? "gradient-royal text-white border-transparent shadow-lg scale-105"
-                    : "bg-card border-border hover:border-royal/40 hover:text-royal"
-                }`}>
-                {lang === "ar" ? b.nameAr : b.nameEn}
-              </button>
-            ))}
-          </div>
-
-          {/* Map + info card */}
-          <RevealSection type="reveal-scale">
-            <div className="bg-card rounded-3xl overflow-hidden border border-border shadow-2xl">
-              {/* Info strip */}
-              <div className="p-5 flex flex-wrap items-center justify-between gap-4 border-b border-border bg-card/80 backdrop-blur-sm">
-                <div className={lang === "ar" ? "text-right" : "text-left"}>
-                  <h3 className="font-black text-base">{lang === "ar" ? branch.nameAr : branch.nameEn}</h3>
-                  <p className="text-muted-foreground text-xs mt-0.5">{lang === "ar" ? branch.addressAr : branch.addressEn}</p>
-                  <p className="text-muted-foreground text-xs mt-0.5 flex items-center gap-1">
-                    <ClockIcon /> {branch.hours}
-                  </p>
-                </div>
-                <a href={branch.link} target="_blank" rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 gradient-royal text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:scale-105 transition-all shadow-md shrink-0">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z"/>
-                  </svg>
-                  {lang === "ar" ? "افتح في الخريطة" : "Open in Maps"}
-                </a>
-              </div>
-
-              {/* OpenStreetMap iframe */}
-              <div className="relative w-full" style={{ height: "380px" }}>
-                <iframe
-                  key={activeMap}
-                  src={branch.embed}
-                  title={lang === "ar" ? branch.nameAr : branch.nameEn}
-                  className="absolute inset-0 w-full h-full border-0"
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  allowFullScreen
-                />
-                {/* Overlay gradient at bottom */}
-                <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-card/50 to-transparent pointer-events-none" />
-              </div>
-            </div>
-          </RevealSection>
-        </div>
-      </section>
 
       <Branches />
     </>
