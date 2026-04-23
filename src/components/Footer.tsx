@@ -3,10 +3,10 @@ import { useLang } from "@/contexts/LanguageContext";
 import logo from "@/assets/site-logo.png";
 import unicef from "@/assets/partners/unicef.jpg";
 import foodBank from "@/assets/partners/food-bank.png";
-import solidarity from "@/assets/partners/solidarity-ministry.png";
+import solidarity from "@/assets/partners/red-crescent.png";
 import misrElKheir from "@/assets/partners/misr-el-kheir.jpg";
-import redCrescent from "@/assets/partners/red-crescent.png";
-import resala from "@/assets/partners/resala.jpg";
+import redCrescent from "@/assets/partners/solidarity-ministry.png";
+import resala from "@/assets/partners/resala.png";
 import crs from "@/assets/partners/crs.jpg";
 
 const socialLinks = [
