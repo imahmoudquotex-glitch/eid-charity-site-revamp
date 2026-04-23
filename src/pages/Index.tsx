@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useRef, useState, useCallback } from "react";
 import heroImg from "@/assets/hero-bg.webp";
 import servicesImg from "@/assets/services-hero.webp";
+import donationBanner from "@/assets/donation-banner.png";
 import SectionTitle from "@/components/SectionTitle";
 import Branches from "@/components/Branches";
 import { RevealSection, StaggerGrid } from "@/components/RevealSection";
@@ -376,6 +377,48 @@ export default function Index() {
                 ))}
               </div>
             </RevealSection>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Donation ── */}
+      <section id="donations" className="py-24 relative overflow-hidden">
+        <div className="absolute inset-0 bg-navy/5" />
+        <div className="mx-auto max-w-7xl px-6 relative z-10">
+          <div className="bg-card/40 backdrop-blur-xl rounded-[2.5rem] overflow-hidden border border-border/50 shadow-2xl group">
+            <div className="grid lg:grid-cols-2 items-center">
+              <div className="p-12 lg:p-16 space-y-8">
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-royal/10 text-royal text-sm font-bold border border-royal/20">
+                  <span className="w-2 h-2 rounded-full bg-royal animate-pulse" />
+                  {t.donation.title}
+                </div>
+                <h2 className="text-4xl md:text-5xl font-black text-foreground leading-tight">
+                  {t.donation.sub}
+                </h2>
+                <p className="text-lg text-muted-foreground leading-relaxed max-w-md">
+                  {t.donation.desc}
+                </p>
+                <div className="pt-4">
+                  <Link
+                    to="/donations"
+                    className="inline-flex items-center gap-3 gradient-royal text-primary-foreground px-10 py-4 rounded-full text-lg font-bold shadow-xl hover:shadow-2xl hover:scale-[1.05] transition-all duration-500 group/btn"
+                  >
+                    <span>{t.donation.btn}</span>
+                    <svg className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                  </Link>
+                </div>
+              </div>
+              <div className="relative h-full min-h-[400px] overflow-hidden">
+                <img
+                  src={donationBanner}
+                  alt="Donation Banner"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-card/40 to-transparent lg:block hidden" />
+              </div>
+            </div>
           </div>
         </div>
       </section>

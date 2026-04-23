@@ -5,6 +5,7 @@ import { useState } from "react";
 import { buildWhatsAppUrl, WHATSAPP, SOCIAL, isSafeExternalUrl } from "@/lib/constants";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import { useLang } from "@/contexts/LanguageContext";
+import { useSearchParams } from "react-router-dom";
 
 
 
@@ -27,9 +28,15 @@ const FbIcon = () => (
 
 export default function ContactPage() {
   const { t, lang } = useLang();
+  const [searchParams] = useSearchParams();
+  const initialTopic = searchParams.get("topic") === "donations" 
+    ? (lang === "ar" ? "تبرع" : "Donation") 
+    : (t.contact.form.topicOptions[0]);
+
   usePageMeta(t.contact.metaTitle, t.contact.metaDesc);
   const [sending, setSending] = useState(false);
   const [activeMap, setActiveMap] = useState(0);
+  const [selectedTopic, setSelectedTopic] = useState(initialTopic);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,6 +44,7 @@ export default function ContactPage() {
     const name = (form.elements.namedItem("fullName") as HTMLInputElement)?.value?.trim() || "";
     const phone = (form.elements.namedItem("phone") as HTMLInputElement)?.value?.trim() || "";
     const topic = (form.elements.namedItem("topic") as HTMLSelectElement)?.value || "";
+    const amount = (form.elements.namedItem("amount") as HTMLInputElement)?.value?.trim() || "";
     const message = (form.elements.namedItem("message") as HTMLTextAreaElement)?.value?.trim() || "";
     const phoneDigits = phone.replace(/\D/g, "");
     if (!name || !message) return;
@@ -48,6 +56,7 @@ export default function ContactPage() {
       `${t.contact.form.name}: ${name}`,
       `${t.contact.form.phone}: ${phone}`,
       `${t.contact.form.topic}: ${topic}`,
+      amount ? `${t.contact.form.amount}: ${amount}` : "",
       `\n${t.contact.form.message}:\n${message}`,
     ].filter(Boolean).join("\n");
 
@@ -108,11 +117,20 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <label className="block text-sm font-black mb-2.5">{t.contact.form.topic}</label>
-                      <select name="topic"
+                      <select name="topic" value={selectedTopic} onChange={(e) => setSelectedTopic(e.target.value)}
                         className="w-full rounded-2xl border border-input bg-background px-5 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-royal focus:border-transparent transition-all shadow-sm">
-                        {t.contact.form.topicOptions.map(opt => <option key={opt}>{opt}</option>)}
+                        {t.contact.form.topicOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
                       </select>
                     </div>
+
+                    {(selectedTopic === "تبرع" || selectedTopic === "Donation") && (
+                      <div className="animate-fade-down">
+                        <label className="block text-sm font-black mb-2.5">{t.contact.form.amount}</label>
+                        <input type="text" name="amount"
+                          className="w-full rounded-2xl border border-input bg-background px-5 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-royal focus:border-transparent transition-all shadow-sm"
+                          placeholder={t.contact.form.amountPlaceholder} />
+                      </div>
+                    )}
                     <div>
                       <label className="block text-sm font-black mb-2.5">{t.contact.form.message}</label>
                       <textarea name="message" rows={5} required maxLength={500}

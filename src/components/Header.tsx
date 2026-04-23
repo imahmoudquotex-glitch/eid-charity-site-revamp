@@ -15,6 +15,7 @@ export default function Header() {
     { to: "/goals", label: t.nav.goals },
     { to: "/services", label: t.nav.services },
     { to: "/programs", label: t.nav.programs },
+    { to: "/donations", label: t.nav.donations },
     { to: "/contact", label: t.nav.contact },
   ], [t]);
 

@@ -11,6 +11,7 @@ interface Translation {
     services: string;
     programs: string;
     contact: string;
+    donations: string;
     book: string;
   };
   home: {
@@ -94,6 +95,14 @@ interface Translation {
     sub2: string;
     book: string;
     contact: string;
+  };
+  donation: {
+    title: string;
+    sub: string;
+    btn: string;
+    desc: string;
+    impact: Array<{ label: string; value: string }>;
+    methods: Array<{ name: string; detail: string; icon: string }>;
   };
   branches: {
     title: string;
@@ -203,6 +212,8 @@ interface Translation {
       phonePlaceholder: string;
       topic: string;
       topicOptions: string[];
+      amount: string;
+      amountPlaceholder: string;
       message: string;
       messagePlaceholder: string;
       submit: string;
@@ -249,6 +260,7 @@ const translations: Record<Language, Translation> = {
       goals: "أهدافنا",
       services: "خدماتنا",
       programs: "برامجنا",
+      donations: "التبرعات",
       contact: "اتصل بنا",
       book: "احجز موعد",
     },
@@ -294,6 +306,22 @@ const translations: Record<Language, Translation> = {
         { title: "تقييم أولي", desc: "فحص شامل لتحديد احتياجات الطفل.", icon: "📋" },
         { title: "متابعة دورية", desc: "برامج مستمرة لمراقبة التطور.", icon: "🔄" },
         { title: "أحدث الأجهزة", icon: "🔬", desc: "تجهيزات طبية عالمية" },
+      ],
+    },
+    donation: {
+      title: "التبرعات",
+      sub: "ساهم في تغيير حياة طفل",
+      btn: "تبرع الآن",
+      desc: "تبرعاتكم هي المحرك الأساسي لخدماتنا ومشاريعنا التنموية لضمان مستقبل أفضل لكل طفل.",
+      impact: [
+        { label: "طفل تم تأهيله", value: "١٥٠+" },
+        { label: "أجهزة طبية", value: "٥٠+" },
+        { label: "دعم مباشر", value: "٣٠٠+" },
+      ],
+      methods: [
+        { name: "حساب بنكي", detail: "بنك مصر: 123456789", icon: "🏦" },
+        { name: "فودافون كاش", detail: "01080036532", icon: "📱" },
+        { name: "فوري", detail: "كود الخدمة: 12345", icon: "⚡" },
       ],
     },
     partners: {
@@ -446,19 +474,19 @@ const translations: Record<Language, Translation> = {
         {
           title: "برنامج التأهيل المنزلي",
           desc: "نصل بخدماتنا للأطفال في منازلهم لضمان الاستمرارية وتدريب الأهل في بيئتهم الطبيعية.",
-          img: "https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=800&h=600&fit=crop&q=80",
+          img: "/assets/programs/home-rehab.jpg",
           stats: [{ label: "زيارة منزلية", value: "٥٠٠+" }]
         },
         { 
           title: "مبادرة 'أنا أستطيع' للتأهيل", 
           desc: "برنامج متخصص لتجهيز الأطفال للالتحاق بالمدارس العادية والتعامل الفعال مع أقرانهم.", 
-          img: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=800&h=600&fit=crop&q=80",
+          img: "/assets/programs/i-can.jpg",
           stats: [{ label: "طفل مؤهل", value: "١٢٠+" }]
         },
         { 
           title: "مشغل الوفاء والأمل", 
           desc: "توفير فرص تدريب مهني وفرص عمل لذوي الهمم في مجالات الحرف اليدوية والبسيطة.", 
-          img: "https://images.unsplash.com/photo-1452860606245-08f31258acab?w=800&h=600&fit=crop&q=80",
+          img: "/assets/programs/workshop.jpg",
           stats: [{ label: "فرصة عمل", value: "٨٠+" }]
         },
       ],
@@ -508,7 +536,9 @@ const translations: Record<Language, Translation> = {
         phone: "رقم الهاتف",
         phonePlaceholder: "أدخل رقم هاتفك",
         topic: "موضوع الرسالة",
-        topicOptions: ["استفسار عام", "حجز موعد", "شكوى أو اقتراح", "تطوع"],
+        topicOptions: ["استفسار عام", "حجز موعد", "شكوى أو اقتراح", "تطوع", "تبرع"],
+        amount: "مبلغ التبرع",
+        amountPlaceholder: "أدخل المبلغ (اختياري)",
         message: "رسالتك",
         messagePlaceholder: "اكتب رسالتك بالتفصيل هنا...",
         submit: "إرسال الرسالة",
@@ -553,6 +583,7 @@ const translations: Record<Language, Translation> = {
       goals: "Our Goals",
       services: "Services",
       programs: "Programs",
+      donations: "Donations",
       contact: "Contact",
       book: "Book Now",
     },
@@ -750,19 +781,19 @@ const translations: Record<Language, Translation> = {
         {
           title: "Home Rehab Program",
           desc: "We reach children at home to ensure continuity and train parents in their natural environment.",
-          img: "https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=800&h=600&fit=crop&q=80",
+          img: "/assets/programs/home-rehab.jpg",
           stats: [{ label: "Home Visits", value: "500+" }]
         },
         { 
           title: "I Can Initiative", 
           desc: "A specialized program to prepare children for school inclusion and effective peer interaction.", 
-          img: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=800&h=600&fit=crop&q=80",
+          img: "/assets/programs/i-can.jpg",
           stats: [{ label: "Kids Integrated", value: "120+" }]
         },
         { 
           title: "Wafaa Workshop", 
           desc: "Providing vocational training and jobs for people with special needs in handicrafts.", 
-          img: "https://images.unsplash.com/photo-1452860606245-08f31258acab?w=800&h=600&fit=crop&q=80",
+          img: "/assets/programs/workshop.jpg",
           stats: [{ label: "Job Opps", value: "80+" }]
         },
       ],
@@ -779,6 +810,22 @@ const translations: Record<Language, Translation> = {
       ctaBtn2: "Contact Us",
       metaTitle: "Our Programs | Qalb El Hayah",
       metaDesc: "Discover our developmental and training programs and initiatives for people with special needs.",
+    },
+    donation: {
+      title: "Donation",
+      sub: "Change a Child's Life",
+      btn: "Donate Now",
+      desc: "Your contributions are the core engine of our rehabilitation services and developmental projects.",
+      impact: [
+        { label: "Kids Rehabilitated", value: "150+" },
+        { label: "Medical Devices", value: "50+" },
+        { label: "Direct Support", value: "300+" },
+      ],
+      methods: [
+        { name: "Bank Account", detail: "Banque Misr: 123456789", icon: "🏦" },
+        { name: "Vodafone Cash", detail: "01080036532", icon: "📱" },
+        { name: "Fawry", detail: "Service Code: 12345", icon: "⚡" },
+      ],
     },
     goals: {
       title: "Our",
@@ -812,7 +859,9 @@ const translations: Record<Language, Translation> = {
         phone: "Phone Number",
         phonePlaceholder: "Enter your phone number",
         topic: "Subject",
-        topicOptions: ["General Inquiry", "Book Appointment", "Complaint or Suggestion", "Volunteer"],
+        topicOptions: ["General Inquiry", "Book Appointment", "Complaint or Suggestion", "Volunteer", "Donation"],
+        amount: "Donation Amount",
+        amountPlaceholder: "Enter amount (optional)",
         message: "Message",
         messagePlaceholder: "Write your message in detail here...",
         submit: "Send Message",

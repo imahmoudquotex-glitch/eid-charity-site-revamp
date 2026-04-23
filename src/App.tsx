@@ -16,6 +16,7 @@ const Goals = lazy(() => import("./pages/Goals.tsx"));
 const Services = lazy(() => import("./pages/Services.tsx"));
 const Programs = lazy(() => import("./pages/Programs.tsx"));
 const Contact = lazy(() => import("./pages/Contact.tsx"));
+const Donations = lazy(() => import("./pages/Donations.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 
 // ✅ QueryClient بإعدادات إنتاج مناسبة
@@ -44,6 +45,7 @@ function RouteWarmup() {
       void import("./pages/Goals.tsx");
       void import("./pages/Services.tsx");
       void import("./pages/Programs.tsx");
+      void import("./pages/Donations.tsx");
       void import("./pages/Contact.tsx");
     };
 
@@ -77,6 +79,7 @@ const App = () => (
                   <Route path="/goals" element={<Goals />} />
                   <Route path="/services" element={<Services />} />
                   <Route path="/programs" element={<Programs />} />
+                  <Route path="/donations" element={<Donations />} />
                   <Route path="/contact" element={<Contact />} />
                 </Route>
                 {/* صفحة 404 بدون Layout عشان لها تصميم مختلف */}
