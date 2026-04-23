@@ -31,36 +31,107 @@ export default function Donations() {
 
   return (
     <div className="min-h-screen">
-      {/* ── Hero Section (Standard Style) ── */}
-      <section className="relative py-32 overflow-hidden">
-        <div className="absolute inset-0 gradient-navy" />
-        <div className="absolute inset-0 opacity-5" style={{ backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
-        <div className="absolute top-10 right-10 w-72 h-72 rounded-full blur-[100px] bg-royal/15 animate-blob" />
-        <div className="absolute bottom-10 left-10 w-72 h-72 rounded-full blur-[100px] bg-primary/10 animate-blob animation-delay-2000" />
+      {/* ── Hero Section (Premium Glass & Image Style) ── */}
+      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+        {/* Background Image with Parallax-like feel */}
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="/donations_hero_bg_1776942911396.png" 
+            alt="Hero Background" 
+            className="w-full h-full object-cover scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-navy/90 via-navy/60 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white dark:to-navy" />
+        </div>
+
+        {/* Floating Decorative Blobs */}
+        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-royal/20 rounded-full blur-[120px] animate-pulse z-0" />
         
-        <div className="relative z-10 mx-auto max-w-4xl px-6 text-center animate-fade-up">
-          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-white/10 glass-dark text-sm font-bold mb-6 text-primary-foreground/80">
-            <span className="w-2 h-2 rounded-full animate-pulse bg-royal" />
-            {t.donation.title}
-          </div>
-          <h1 className="text-4xl md:text-6xl font-black mb-4 tracking-tight text-primary-foreground">
-            {t.donation.sub}
-          </h1>
-          <p className="text-lg max-w-lg mx-auto text-primary-foreground/50 mb-8">{t.donation.desc}</p>
-          
-          <div className="flex flex-wrap justify-center gap-4">
-            <a
-              href="#methods"
-              className="gradient-royal text-white px-10 py-4 rounded-full text-lg font-bold shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
-            >
-              {t.donation.btn}
-            </a>
-            <Link
-              to="/contact?topic=donations"
-              className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-10 py-4 rounded-full text-lg font-bold hover:bg-white/20 transition-all duration-300"
-            >
-              {t.nav.contact}
-            </Link>
+        <div className="relative z-10 mx-auto max-w-7xl px-6 w-full py-20">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="space-y-8 animate-fade-up">
+              <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-white/20 glass-dark text-sm font-black tracking-widest text-primary-foreground/90 uppercase">
+                <span className="w-2 h-2 rounded-full bg-royal animate-ping" />
+                {t.donation.title}
+              </div>
+              
+              <h1 className="text-5xl md:text-8xl font-black text-white leading-[1.05] tracking-tight drop-shadow-2xl">
+                {t.donation.sub}
+              </h1>
+              
+              <p className="text-xl md:text-2xl text-white/70 max-w-xl leading-relaxed font-medium">
+                {t.donation.desc}
+              </p>
+              
+              <div className="flex flex-wrap gap-6 pt-4">
+                <a
+                  href="#methods"
+                  className="gradient-royal text-white px-12 py-5 rounded-2xl text-xl font-black shadow-[0_20px_50px_rgba(65,105,225,0.4)] hover:shadow-[0_25px_60px_rgba(65,105,225,0.6)] hover:scale-105 transition-all duration-300"
+                >
+                  {t.donation.btn}
+                </a>
+                <Link
+                  to="/contact?topic=donations"
+                  className="bg-white/10 backdrop-blur-xl border border-white/20 text-white px-12 py-5 rounded-2xl text-xl font-black hover:bg-white/20 transition-all duration-300 flex items-center gap-3"
+                >
+                  <Smartphone className="w-5 h-5" />
+                  {t.nav.contact}
+                </Link>
+              </div>
+
+              {/* Trust Indicators */}
+              <div className="flex items-center gap-8 pt-10 border-t border-white/10 max-w-md">
+                <div className="flex -space-x-3">
+                  {[1,2,3,4].map(i => (
+                    <div key={i} className="w-10 h-10 rounded-full border-2 border-navy bg-royal/20 flex items-center justify-center text-xs text-white font-bold backdrop-blur-sm">
+                      {i}+
+                    </div>
+                  ))}
+                </div>
+                <div className="text-white/60 text-sm font-bold">
+                  <span className="text-white block text-lg">1,500+</span>
+                  {lang === "ar" ? "متبرع وضعوا ثقتهم بنا" : "Donors trust us"}
+                </div>
+              </div>
+            </div>
+
+            {/* Right Side: Hero Glass Card (Impact Highlight) */}
+            <div className="hidden lg:block relative group animate-fade-in animation-delay-500">
+              <div className="absolute -inset-4 bg-royal/20 rounded-[3rem] blur-2xl group-hover:bg-royal/30 transition-all duration-700" />
+              <div className="relative glass-dark p-10 rounded-[3rem] border border-white/10 shadow-3xl space-y-8">
+                <div className="flex items-center justify-between">
+                  <div className="w-16 h-16 rounded-2xl bg-royal/20 text-royal flex items-center justify-center">
+                    <Zap className="w-8 h-8" />
+                  </div>
+                  <span className="px-4 py-1.5 rounded-full bg-green-500/20 text-green-400 text-xs font-black uppercase tracking-widest">
+                    {lang === "ar" ? "تأثير فوري" : "Instant Impact"}
+                  </span>
+                </div>
+                
+                <div className="space-y-2">
+                  <div className="text-white/60 font-bold uppercase tracking-widest text-xs">
+                    {lang === "ar" ? "إجمالي الدعم هذا الشهر" : "Total Support This Month"}
+                  </div>
+                  <div className="text-5xl font-black text-white tracking-tighter">
+                    $45,280.00
+                  </div>
+                </div>
+
+                <div className="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-4">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-white/60">{lang === "ar" ? "الهدف الشهري" : "Monthly Goal"}</span>
+                    <span className="text-royal font-black">85%</span>
+                  </div>
+                  <div className="h-3 w-full bg-white/10 rounded-full overflow-hidden">
+                    <div className="h-full bg-royal w-[85%] rounded-full shadow-[0_0_15px_rgba(65,105,225,0.5)]" />
+                  </div>
+                </div>
+
+                <button className="w-full py-5 rounded-2xl bg-white text-navy font-black text-lg hover:bg-royal hover:text-white transition-all duration-300">
+                  {lang === "ar" ? "شارك في تحقيق الهدف" : "Help reach the goal"}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -149,92 +220,92 @@ export default function Donations() {
                     {item.label}
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Methods Section (Product Catalog Style) ── */}
-      <section id="methods" className="py-24 relative overflow-hidden bg-navy/5 dark:bg-black/10">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="text-center mb-16 space-y-4">
-            <h2 className="text-4xl md:text-5xl font-black text-foreground">
+              </      {/* ── Methods Section (High-End Card Catalog) ── */}
+      <section id="methods" className="py-32 relative overflow-hidden bg-navy/5 dark:bg-navy/20">
+        <div className="absolute inset-0 section-pattern opacity-[0.03]" />
+        
+        <div className="mx-auto max-w-7xl px-6 relative z-10">
+          <div className="text-center max-w-3xl mx-auto mb-20 space-y-6 animate-fade-up">
+            <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-royal/10 text-royal text-xs font-black uppercase tracking-widest">
+              {lang === "ar" ? "ساهم معنا" : "Contribute With Us"}
+            </div>
+            <h2 className="text-4xl md:text-6xl font-black text-foreground tracking-tight">
               {lang === "ar" ? "طرق التبرع المتاحة" : "Available Donation Methods"}
             </h2>
-            <p className="text-muted-foreground text-lg">
+            <p className="text-muted-foreground text-xl leading-relaxed">
               {lang === "ar" 
-                ? "اختر الوسيلة التي تناسبك وساهم في استمرارية أعمالنا" 
-                : "Choose the method that suits you best and contribute to our work"}
+                ? "نوفر لك خيارات آمنة وسهلة لتصل تبرعاتك إلى مستحقيها بأسرع وقت ممكن." 
+                : "We provide secure and easy options to ensure your donations reach those in need as quickly as possible."}
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 lg:gap-10">
+          <div className="grid md:grid-cols-3 gap-8">
             {t.donation.methods.map((method, idx) => (
               <div 
                 key={idx}
-                className="relative group bg-white dark:bg-card/50 rounded-[2rem] p-8 lg:p-10 border border-border shadow-lg hover:shadow-2xl hover:border-royal/50 transition-all duration-500 overflow-hidden flex flex-col"
+                className="group relative bg-white dark:bg-card/40 rounded-[3rem] p-10 border border-royal/5 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.05)] hover:shadow-[0_30px_70px_-20px_rgba(65,105,225,0.15)] hover:border-royal/30 transition-all duration-500 flex flex-col items-center text-center overflow-hidden"
               >
-                {/* Top Accent Glow */}
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-royal/40 via-royal to-royal/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                {/* Visual Accent */}
+                <div className="absolute top-0 inset-x-0 h-2 bg-gradient-to-r from-transparent via-royal/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 
-                {/* Background ambient glow on hover */}
-                <div className="absolute inset-0 bg-gradient-to-b from-royal/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-                <div className="flex items-center justify-between mb-8 relative z-10">
-                  <div className="w-16 h-16 rounded-2xl bg-royal/10 text-royal flex items-center justify-center group-hover:scale-110 group-hover:bg-royal group-hover:text-white transition-all duration-500 shadow-sm">
-                    {getIcon(method.icon)}
-                  </div>
-                  {/* Badge for the first item */}
-                  {idx === 0 && (
-                    <span className="px-4 py-1.5 rounded-full bg-royal/10 text-royal text-xs font-bold uppercase tracking-wider">
-                      {lang === "ar" ? "الأكثر استخداماً" : "Most Popular"}
-                    </span>
-                  )}
+                <div className="w-24 h-24 rounded-3xl bg-royal/5 text-royal flex items-center justify-center mb-8 group-hover:scale-110 group-hover:bg-royal group-hover:text-white transition-all duration-500 shadow-inner">
+                  {getIcon(method.icon)}
                 </div>
 
-                <div className="relative z-10">
-                  <h3 className="text-2xl font-black mb-3 text-foreground tracking-tight">{method.name}</h3>
-                  <p className="text-muted-foreground text-sm mb-8 leading-relaxed">
+                <div className="space-y-4 mb-10">
+                  <h3 className="text-3xl font-black text-foreground tracking-tight">{method.name}</h3>
+                  <div className="h-1 w-12 bg-royal/20 mx-auto rounded-full group-hover:w-20 group-hover:bg-royal transition-all duration-500" />
+                  <p className="text-muted-foreground font-medium leading-relaxed">
                     {lang === "ar" 
-                      ? "وسيلة آمنة ومباشرة لدعم الحالات وتوفير الرعاية اللازمة للأطفال." 
-                      : "A secure and direct way to support cases and provide necessary care."}
+                      ? "وسيلة آمنة ومعتمدة رسمياً للتحويل المباشر." 
+                      : "A secure and officially approved method for direct transfer."}
                   </p>
                 </div>
 
-                <div className="mt-auto relative z-10">
-                  {/* The "Price / Account" Box */}
+                <div className="w-full mt-auto space-y-6">
                   <div 
-                    className="bg-navy/5 dark:bg-black/20 rounded-2xl p-5 mb-6 border border-black/5 dark:border-white/5 relative group/copy cursor-pointer hover:bg-navy/10 dark:hover:bg-black/30 transition-colors"
+                    className="relative group/copy cursor-pointer"
                     onClick={() => copyToClipboard(method.detail, `method-${idx}`)}
                   >
-                    <div className="text-xs text-muted-foreground font-bold uppercase tracking-wider mb-3 flex items-center justify-between">
-                      <span>{lang === "ar" ? "تفاصيل الحساب" : "Account Details"}</span>
-                      <Copy className="w-4 h-4 opacity-40 group-hover/copy:opacity-100 group-hover/copy:text-royal transition-all" />
-                    </div>
-                    <div className="font-mono text-lg lg:text-xl font-bold text-foreground break-all tracking-tight" dir="ltr">
-                      {method.detail}
+                    <div className="bg-navy/[0.03] dark:bg-white/[0.03] rounded-2xl p-6 border border-royal/5 group-hover/copy:border-royal/30 transition-all">
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/60">
+                          {lang === "ar" ? "رقم الحساب / التفاصيل" : "Account No. / Details"}
+                        </span>
+                        <Copy className="w-4 h-4 text-royal opacity-40 group-hover/copy:opacity-100 transition-opacity" />
+                      </div>
+                      <div className="font-mono text-xl font-black text-royal break-all tracking-widest" dir="ltr">
+                        {method.detail}
+                      </div>
                     </div>
                   </div>
 
-                  {/* CTA Button */}
                   <button
                     onClick={() => copyToClipboard(method.detail, `method-${idx}`)}
-                    className={`w-full flex items-center justify-center gap-3 py-4 rounded-xl font-bold transition-all duration-300 ${
+                    className={`w-full py-5 rounded-2xl font-black text-lg transition-all duration-300 flex items-center justify-center gap-3 ${
                       copiedId === `method-${idx}`
-                        ? "bg-green-500 text-white shadow-lg shadow-green-500/25 -translate-y-1"
-                        : "bg-royal/10 text-royal hover:bg-royal hover:text-white shadow-sm hover:shadow-xl hover:shadow-royal/25 hover:-translate-y-1"
+                        ? "bg-green-500 text-white shadow-xl shadow-green-500/30"
+                        : "bg-royal text-white shadow-xl shadow-royal/20 hover:shadow-royal/40 hover:-translate-y-1"
                     }`}
                   >
                     {copiedId === `method-${idx}` ? (
                       <>
-                        <Check className="w-5 h-5" />
-                        <span>{lang === "ar" ? "تم النسخ بنجاح" : "Copied Successfully"}</span>
+                        <Check className="w-6 h-6 stroke-[3]" />
+                        <span>{lang === "ar" ? "تم النسخ" : "Copied"}</span>
                       </>
                     ) : (
                       <>
-                        <Copy className="w-5 h-5" />
+                        <Copy className="w-6 h-6" />
                         <span>{lang === "ar" ? "نسخ التفاصيل" : "Copy Details"}</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>"ar" ? "نسخ التفاصيل" : "Copy Details"}</span>
                       </>
                     )}
                   </button>
