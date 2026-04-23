@@ -5,7 +5,8 @@ export default function ScrollToTop() {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    // Instant jump avoids perceived lag during route transitions.
+    window.scrollTo({ top: 0, behavior: "auto" });
   }, [pathname]);
 
   return null;

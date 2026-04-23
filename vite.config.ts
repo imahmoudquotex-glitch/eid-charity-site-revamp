@@ -1,18 +1,13 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
-import { componentTagger } from "lovable-tagger";
 
-export default defineConfig(({ mode }) => ({
+export default defineConfig(() => ({
   server: {
     host: "::",
     port: 8080,
   },
-  plugins: [
-    react(),
-    mode === 'development' &&
-    componentTagger(),
-  ].filter(Boolean),
+  plugins: [react()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
@@ -30,10 +25,18 @@ export default defineConfig(({ mode }) => ({
     assetsInlineLimit: 4096, // صور أصغر من 4KB تصبح base64
     rollupOptions: {
       output: {
-        manualChunks: {
-          "react-vendor": ["react", "react-dom", "react-router-dom"],
-          "ui-vendor": ["@radix-ui/react-accordion", "@radix-ui/react-dialog", "@radix-ui/react-tooltip"],
-          "query": ["@tanstack/react-query"],
+        // Vite 8 expects function-form manual chunking with rolldown.
+        manualChunks(id) {
+          if (id.includes("node_modules/react") || id.includes("react-router-dom")) {
+            return "react-vendor";
+          }
+          if (id.includes("@tanstack/react-query") || id.includes("@tanstack/query-core")) {
+            return "query";
+          }
+          if (id.includes("@radix-ui/")) {
+            return "ui-vendor";
+          }
+          return undefined;
         },
       },
     },

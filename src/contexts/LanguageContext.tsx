@@ -33,7 +33,7 @@ interface Translation {
     btn: string;
     items: Array<{ label: string; icon: string; desc: string }>;
   };
-  clinic: {
+  foundation: {
     title: string;
     sub: string;
     badge: string;
@@ -212,9 +212,17 @@ interface Translation {
     };
     info: {
       title: string;
-      phone: string;
-      email: string;
+      booking: string;
+      complaints: string;
+      hours: string;
+      hoursVal: string;
       address: string;
+      addressVal: string;
+      email: string;
+      emailVal: string;
+      follow: string;
+      fb1: string;
+      fb2: string;
     };
     metaTitle: string;
     metaDesc: string;
@@ -242,7 +250,7 @@ const translations: Record<Language, Translation> = {
       services: "خدماتنا",
       programs: "برامجنا",
       contact: "اتصل بنا",
-      book: "احجز موعداً",
+      book: "احجز موعد",
     },
     home: {
       metaTitle: "الرئيسية",
@@ -261,7 +269,7 @@ const translations: Record<Language, Translation> = {
       services: "خدمة تأهيلية شهرياً",
       education: "ساعة تدريبية",
       health: "فحص طبي دوري",
-      solidarity: "حالة دمج ناجحة",
+      solidarity: "حالة تأهيل ناجحة",
     },
     fields: {
       title: "مجالات التنمية",
@@ -269,19 +277,19 @@ const translations: Record<Language, Translation> = {
       btn: "عرض جميع الأهداف",
       items: [
         { label: "التأهيل الطبي", icon: "🏥", desc: "خدمات علاجية متطورة" },
-        { label: "التعليم والدمج", icon: "🎓", desc: "فرص عادلة للجميع" },
+        { label: "التعليم والتأهيل", icon: "🎓", desc: "فرص عادلة للجميع" },
         { label: "الدعم النفسي", icon: "🧠", desc: "بناء الثقة والمرونة" },
         { label: "التدريب المهني", icon: "🔨", desc: "مهارات للمستقبل" },
       ],
     },
-    clinic: {
-      title: "المركز الطبي",
+    foundation: {
+      title: "مركز التأهيل المتكامل",
       sub: "أحدث التجهيزات لتقديم رعاية تليق بأطفالنا",
       badge: "رعاية مميزة",
-      name: "عيادة قلب الحياة التخصصية",
-      desc1: "نقدم فحوصات دورية وشاملة تحت إشراف نخبة من الأطباء في مختلف التخصصات.",
-      desc2: "المعامل وغرف الفحص مجهزة بأعلى التقنيات لضمان دقة التشخيص.",
-      book: "احجز كشفاً طبياً",
+      name: "مؤسسة قلب الحياة للتنمية",
+      desc1: "نقدم فحوصات دورية وشاملة تحت إشراف نخبة من المتخصصين في مختلف المجالات.",
+      desc2: "المعامل وغرف التقييم مجهزة بأعلى التقنيات لضمان دقة التشخيص.",
+      book: "احجز تقييماً",
       items: [
         { title: "تقييم أولي", desc: "فحص شامل لتحديد احتياجات الطفل.", icon: "📋" },
         { title: "متابعة دورية", desc: "برامج مستمرة لمراقبة التطور.", icon: "🔄" },
@@ -307,7 +315,7 @@ const translations: Record<Language, Translation> = {
       title2: "للتنمية",
       subtitle: "معاً نبني مستقبلاً أكثر إشراقاً لأطفالنا",
       desc: "نقدم رعاية متكاملة وخدمات تأهيلية متخصصة لدعم نمو وتطور الأطفال، مع التزام تام بأعلى معايير الجودة والاحترافية.",
-      book: "احجز موعداً",
+      book: "احجز موعد",
       explore: "اكتشف خدماتنا",
     },
     whatsapp: {
@@ -395,7 +403,7 @@ const translations: Record<Language, Translation> = {
         errorFull: "يرجى ملء جميع الحقول المطلوبة",
         errorPhone: "يرجى إدخال رقم هاتف صحيح (11 رقم)",
       },
-      metaTitle: "خدماتنا | مؤسسة قلب الحياة",
+      metaTitle: "خدماتنا | مؤسسة قلب الحياة للتنمية",
       metaDesc: "اكتشف مجموعة خدماتنا التأهيلية: علاج طبيعي، تخاطب، تنمية مهارات، وتعديل سلوك.",
     },
     about: {
@@ -407,12 +415,12 @@ const translations: Record<Language, Translation> = {
       storyParts: [
         "بدأت مؤسسة قلب الحياة للتنمية برؤية بسيطة ولكنها عميقة: أن كل طفل يستحق فرصة ليحيا حياة كريمة ومفعمة بالأمل.",
         "نحن نؤمن بأن الإعاقة ليست عائقاً أمام النجاح، بل هي تحدٍ يمكننا تجاوزه معاً من خلال العلم والتدريب والحب.",
-        "على مدار سنوات، استطعنا في قلب الحياة أن نكون البيت الثاني لآلاف الأطفال، وملاذاً للأسر التي تبحث عن الأمان والدعم لأبنائها.",
+        "على مدار سنوات، استطعنا في قلب الحياة للتنمية أن نكون البيت الثاني لآلاف الأطفال، وملاذاً للأسر التي تبحث عن الأمان والدعم لأبنائها.",
       ],
       vision: "رؤيتنا",
       visionDesc: "أن نكون المركز الرائد في الشرق الأوسط لتقديم خدمات التأهيل المتكاملة للأطفال، بمعايير عالمية ولمسات إنسانية.",
       mission: "رسالتنا",
-      missionDesc: "تقديم رعاية متميزة وشاملة تدمج بين العلاج الطبي وتنمية المهارات، لتمكين الأطفال من الاندماج الكامل في المجتمع.",
+      missionDesc: "تقديم رعاية متميزة وشاملة تجمع بين العلاج الطبي وتنمية المهارات، لتمكين الأطفال من التفاعل الإيجابي مع المجتمع.",
       values: "قيمنا",
       valuesDesc: "الاحترام، الاحترافية، التعاطف، والابتكار المستمر في طرق العلاج والتأهيل.",
       achievementsTitle: "إنجازاتنا بالأرقام",
@@ -435,22 +443,22 @@ const translations: Record<Language, Translation> = {
         fields: "تخصصات دقيقة",
       },
       items: [
-        { 
-          title: "برنامج التأهيل المنزلي", 
-          desc: "نصل بخدماتنا للأطفال في منازلهم لضمان الاستمرارية وتدريب الأهل في بيئتهم الطبيعية.", 
-          img: "/assets/children-education.jpg",
+        {
+          title: "برنامج التأهيل المنزلي",
+          desc: "نصل بخدماتنا للأطفال في منازلهم لضمان الاستمرارية وتدريب الأهل في بيئتهم الطبيعية.",
+          img: "/assets/program-home-rehab.jpg",
           stats: [{ label: "زيارة منزلية", value: "٥٠٠+" }]
         },
         { 
-          title: "مبادرة 'أنا أستطيع' للدمج", 
+          title: "مبادرة 'أنا أستطيع' للتأهيل", 
           desc: "برنامج متخصص لتجهيز الأطفال للالتحاق بالمدارس العادية والتعامل الفعال مع أقرانهم.", 
-          img: "/assets/inclusion.jpg",
-          stats: [{ label: "طفل مدمج", value: "١٢٠+" }]
+          img: "/assets/program-i-can.jpg",
+          stats: [{ label: "طفل مؤهل", value: "١٢٠+" }]
         },
         { 
           title: "مشغل الوفاء والأمل", 
           desc: "توفير فرص تدريب مهني وفرص عمل لذوي الهمم في مجالات الحرف اليدوية والبسيطة.", 
-          img: "/assets/volunteers.jpg",
+          img: "/assets/program-workshop.jpg",
           stats: [{ label: "فرصة عمل", value: "٨٠+" }]
         },
       ],
@@ -459,13 +467,13 @@ const translations: Record<Language, Translation> = {
       stories: [
         { name: "علي محمد", role: "ولي أمر", quote: "لم أصدق التطور الذي حققه ابني في ستة أشهر فقط من التدريب المكثف.", emoji: "👨‍👦" },
         { name: "سارة أحمد", role: "أخصائية تخاطب", quote: "رؤية طفل يتحدث للمرة الأولى هي أعظم مكافأة لعملنا في المؤسسة.", emoji: "👩‍⚕️" },
-        { name: "ياسين إبراهيم", role: "مستفيد من برنامج الدمج", quote: "أنا الآن في المدرسة ولدي الكثير من الأصدقاء، شكراً قلب الحياة.", emoji: "👦" },
+        { name: "ياسين إبراهيم", role: "مستفيد من برنامج التأهيل", quote: "أنا الآن في المدرسة ولدي الكثير من الأصدقاء، شكراً قلب الحياة للتنمية.", emoji: "👦" },
       ],
       ctaTitle: "كن جزءاً من التغيير",
       ctaSub: "سواء كنت متطوعاً أو داعماً، مساهمتك تصنع فرقاً حقيقياً في حياة هؤلاء الأطفال.",
-      ctaBtn1: "احجز موعداً",
+      ctaBtn1: "احجز موعد",
       ctaBtn2: "تواصل معنا",
-      metaTitle: "برامجنا | مؤسسة قلب الحياة",
+      metaTitle: "برامجنا | مؤسسة قلب الحياة للتنمية",
       metaDesc: "تعرف على برامجنا التنموية والتدريبية ومبادراتنا لتمكين ذوي الهمم.",
     },
     goals: {
@@ -476,15 +484,15 @@ const translations: Record<Language, Translation> = {
       sectionTitle: "رؤية طموحة",
       sectionSub: "الأهداف التي نسعى لتحقيقها كل يوم",
       items: [
-        { title: "تمكين الطفل", desc: "رفع كفاءة الأطفال في المهارات الاستقلالية والاجتماعية.", icon: "💪", label: "هدف ذاتي", objectives: ["تنمية الاستقلالية", "تحسين السلوك", "الدمج الذاتي"] },
+        { title: "تمكين الطفل", desc: "رفع كفاءة الأطفال في المهارات الاستقلالية والاجتماعية.", icon: "💪", label: "هدف ذاتي", objectives: ["تنمية الاستقلالية", "تحسين السلوك", "الاعتماد على الذات"] },
         { title: "دعم الأسر", desc: "توعية وتدريب الأسر وتوفير الدعم النفسي والتقني لهم.", icon: "🤝", label: "هدف أسري", objectives: ["الدعم النفسي", "الإرشاد المهني", "التمكين الأسري"] },
-        { title: "نشر الوعي", desc: "تصحيح المفاهيم المجتمعية حول الإعاقة وتعزيز ثقافة الدمج.", icon: "📢", label: "هدف مجتمعي", objectives: ["حملات التوعية", "تغيير المفاهيم", "تعزيز الدمج"] },
+        { title: "نشر الوعي", desc: "تصحيح المفاهيم المجتمعية حول الإعاقة وتعزيز ثقافة التقبل.", icon: "📢", label: "هدف مجتمعي", objectives: ["حملات التوعية", "تغيير المفاهيم", "الوعي المجتمعي"] },
         { title: "تطوير الكوادر", desc: "تدريب مستمر للأخصائيين على أحدث الأساليب العلمية.", icon: "🎓", label: "هدف مهني", objectives: ["التدريب العلمي", "الأساليب الحديثة", "رفع الكفاءة"] },
         { title: "توفير الأمان", desc: "خلق بيئة آمنة وصديقة للطفل في جميع فروعنا.", icon: "🛡️", label: "هدف أمني", objectives: ["بيئة آمنة", "معايير الجودة", "الحماية والوقاية"] },
         { title: "الاستدامة", desc: "بناء نموذج عمل مؤسسي يضمن استمرارية الخدمات وتطويرها.", icon: "🌱", label: "هدف مؤسسي", objectives: ["استمرارية الخدمة", "تطوير الموارد", "التوسع المدروس"] },
       ],
-      metaTitle: "أهدافنا | مؤسسة قلب الحياة",
-      metaDesc: "تعرف على أهداف مؤسسة قلب الحياة الاستراتيجية لدعم وتمكين ذوي الهمم.",
+      metaTitle: "أهدافنا | مؤسسة قلب الحياة للتنمية",
+      metaDesc: "تعرف على أهداف مؤسسة قلب الحياة للتنمية الاستراتيجية لدعم وتمكين ذوي الهمم.",
       filterAll: "الكل",
     },
     contact: {
@@ -510,11 +518,19 @@ const translations: Record<Language, Translation> = {
       },
       info: {
         title: "معلومات التواصل",
-        phone: "الهاتف وواتساب",
+        booking: "رقم الحجز والاستعلام",
+        complaints: "رقم الشكاوى والاقتراحات",
+        hours: "مواعيد العمل",
+        hoursVal: "السبت - الخميس: ٩ ص - ٥ م",
+        address: "العنوان",
+        addressVal: "٦٤ شارع البستان - ميدان محمد فريد - عابدين - القاهرة",
         email: "البريد الإلكتروني",
-        address: "المقر الرئيسي",
+        emailVal: "info@qalbelhayah.org",
+        follow: "تابعنا على فيسبوك",
+        fb1: "الصفحة الرسمية 1",
+        fb2: "الصفحة الرسمية 2",
       },
-      metaTitle: "اتصل بنا | مؤسسة قلب الحياة",
+      metaTitle: "اتصل بنا | مؤسسة قلب الحياة للتنمية",
       metaDesc: "تواصل مع مؤسسة قلب الحياة للتنمية عبر الهاتف، البريد الإلكتروني، أو زيارة فروعنا.",
     },
     notFound: {
@@ -570,14 +586,14 @@ const translations: Record<Language, Translation> = {
         { label: "Vocational Training", icon: "🔨", desc: "Skills for the Future" },
       ],
     },
-    clinic: {
-      title: "Medical Center",
+    foundation: {
+      title: "Integrated Rehab Center",
       sub: "Latest equipment for world-class care.",
       badge: "Premium Care",
-      name: "Qalb El Hayah Specialized Clinic",
-      desc1: "We provide comprehensive periodic checkups supervised by elite doctors.",
-      desc2: "Our labs and exam rooms are equipped with highest tech for accurate diagnosis.",
-      book: "Book Medical Appt",
+      name: "Qalb El Hayah Foundation",
+      desc1: "We provide comprehensive periodic assessments supervised by highly qualified specialists.",
+      desc2: "Our evaluation rooms are equipped with cutting-edge technology for accurate diagnosis.",
+      book: "Book Assessment",
       items: [
         { title: "Initial Assessment", desc: "Comprehensive exam for child's needs.", icon: "📋" },
         { title: "Periodic Follow-up", desc: "Continuous mapping of progress.", icon: "🔄" },
@@ -636,7 +652,7 @@ const translations: Record<Language, Translation> = {
     cta: {
       title: "Let us help your child reach their full potential",
       sub: "Our team of specialists is ready to provide the necessary support with love and professionalism.",
-      sub2: "Our centers are equipped with the latest means to ensure the best results.",
+      sub2: "Our centers are equipped with state-of-the-art facilities to ensure the best results.",
       book: "Book Initial Assessment",
       contact: "Call for Consultation",
     },
@@ -731,22 +747,22 @@ const translations: Record<Language, Translation> = {
         fields: "Specialties",
       },
       items: [
-        { 
-          title: "Home Rehab Program", 
-          desc: "We reach children at home to ensure continuity and train parents in their natural environment.", 
-          img: "/assets/children-education.jpg",
+        {
+          title: "Home Rehab Program",
+          desc: "We reach children at home to ensure continuity and train parents in their natural environment.",
+          img: "/assets/program-home-rehab.jpg",
           stats: [{ label: "Home Visits", value: "500+" }]
         },
         { 
           title: "I Can Initiative", 
           desc: "A specialized program to prepare children for school inclusion and effective peer interaction.", 
-          img: "/assets/inclusion.jpg",
+          img: "/assets/program-i-can.jpg",
           stats: [{ label: "Kids Integrated", value: "120+" }]
         },
         { 
           title: "Wafaa Workshop", 
           desc: "Providing vocational training and jobs for people with special needs in handicrafts.", 
-          img: "/assets/volunteers.jpg",
+          img: "/assets/program-workshop.jpg",
           stats: [{ label: "Job Opps", value: "80+" }]
         },
       ],
@@ -806,9 +822,17 @@ const translations: Record<Language, Translation> = {
       },
       info: {
         title: "Contact Info",
-        phone: "Phone & WhatsApp",
+        booking: "Booking & Inquiries",
+        complaints: "Complaints & Suggestions",
+        hours: "Working Hours",
+        hoursVal: "Sat - Thu: 9 AM - 5 PM",
+        address: "Address",
+        addressVal: "64 El Bostan St - Mohamed Farid Sq - Abdeen - Cairo",
         email: "Email Address",
-        address: "Headquarters",
+        emailVal: "info@qalbelhayah.org",
+        follow: "Follow us on Facebook",
+        fb1: "Official Page 1",
+        fb2: "Official Page 2",
       },
       metaTitle: "Contact Us | Qalb El Hayah",
       metaDesc: "Contact Qalb El Hayah Foundation via phone, email, or visit our branches.",
@@ -837,20 +861,45 @@ const LanguageContext = createContext<{
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [lang, setLang] = useState<Language>(() => {
-    const saved = localStorage.getItem("app_lang");
-    if (saved === "ar" || saved === "en") return saved;
+    try {
+      const saved = localStorage.getItem("app_lang");
+      if (saved === "ar" || saved === "en") return saved;
+    } catch {
+      // Keep default language when storage is unavailable.
+    }
     return "ar";
   });
+
+  const [fading, setFading] = useState(false);
 
   useEffect(() => {
     document.documentElement.lang = lang;
     document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
-    localStorage.setItem("app_lang", lang);
+    try {
+      localStorage.setItem("app_lang", lang);
+    } catch {
+      // No-op if storage is blocked.
+    }
   }, [lang]);
 
-  const toggleLang = () => setLang((l) => (l === "ar" ? "en" : "ar"));
-  const setLangAr = () => setLang("ar");
-  const setLangEn = () => setLang("en");
+  /* Smooth fade-out → switch → fade-in on language change */
+  const switchLang = (next: Language) => {
+    if (next === lang) return;
+    setFading(true);
+    const root = document.getElementById("lang-transition-root");
+    if (root) root.style.opacity = "0";
+    setTimeout(() => {
+      setLang(next);
+      setTimeout(() => {
+        if (root) root.style.opacity = "1";
+        setFading(false);
+      }, 80);
+    }, 250);
+  };
+
+  const toggleLang = () => switchLang(lang === "ar" ? "en" : "ar");
+  const setLangAr = () => switchLang("ar");
+  const setLangEn = () => switchLang("en");
 
   return (
     <LanguageContext.Provider value={{ lang, t: translations[lang], toggleLang, setLangAr, setLangEn }}>

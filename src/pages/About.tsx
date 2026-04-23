@@ -1,5 +1,5 @@
 import SectionTitle from "@/components/SectionTitle";
-import heroImg from "@/assets/about-hero.jpg";
+import heroImg from "@/assets/hero-community.webp";
 import { RevealSection, StaggerGrid } from "@/components/RevealSection";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import { useLang } from "@/contexts/LanguageContext";

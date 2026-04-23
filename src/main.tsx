@@ -11,4 +11,8 @@ if (!rootElement) {
   );
 }
 
-createRoot(rootElement).render(<App />);
+createRoot(rootElement, {
+  onRecoverableError(error) {
+    console.warn("[Recoverable React Error]", error);
+  },
+}).render(<App />);

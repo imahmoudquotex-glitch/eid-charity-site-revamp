@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import logo from "@/assets/site-logo.jpg";
 import { useLang } from "@/contexts/LanguageContext";
 
@@ -9,17 +9,25 @@ export default function Header() {
   const location = useLocation();
   const { lang, t, toggleLang } = useLang();
 
-  const navLinks = [
+  const navLinks = useMemo(() => [
     { to: "/", label: t.nav.home },
     { to: "/about", label: t.nav.about },
     { to: "/goals", label: t.nav.goals },
     { to: "/services", label: t.nav.services },
     { to: "/programs", label: t.nav.programs },
     { to: "/contact", label: t.nav.contact },
-  ];
+  ], [t]);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        setScrolled(window.scrollY > 20);
+        ticking = false;
+      });
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -28,20 +36,17 @@ export default function Header() {
 
   return (
     <>
-      <header className={`fixed w-full top-0 z-50 transition-all duration-500 ${scrolled ? "glass shadow-lg border-b border-border/30" : "bg-background/80 backdrop-blur-sm"}`}>
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-[4.5rem] items-center justify-between">
-            <Link to="/" className="flex items-center gap-3 shrink-0 group">
+      <header className={`fixed w-full top-0 z-50 transition-all duration-300 ${scrolled ? "glass shadow-lg border-b border-border/30" : "bg-background/90 lg:bg-background/80 lg:backdrop-blur-sm"}`}>
+        <div className={`mx-auto max-w-7xl ${lang === "ar" ? "pr-2 pl-4 sm:pr-3 sm:pl-6 lg:pr-4 lg:pl-8" : "pl-2 pr-4 sm:pl-3 sm:pr-6 lg:pl-4 lg:pr-8"}`}>
+          <div className="flex h-[4.25rem] lg:h-[4.5rem] items-center justify-between">
+            <Link to="/" className={`flex items-center gap-3 shrink-0 group ${lang === "ar" ? "-mr-1 lg:-mr-2" : ""}`}>
               <div className="relative">
-                <img src={logo} alt={lang === "ar" ? "قلب الحياة" : "Qalb El Hayah"} className="h-11 w-11 rounded-lg group-hover:scale-110 transition-transform duration-300 drop-shadow-lg object-contain" width={44} height={44} />
-                <div className="absolute -inset-1 rounded-full bg-royal/10 blur-md group-hover:bg-royal/20 transition-colors" />
+                <img src={logo} alt={lang === "ar" ? "مؤسسة قلب الحياة للتنمية" : "Qalb El Hayah Foundation"} className="h-10 w-10 lg:h-11 lg:w-11 rounded-lg group-hover:scale-105 transition-transform duration-300 drop-shadow-md object-contain" width={44} height={44} />
+                <div className="absolute -inset-1 rounded-full bg-royal/10 blur-sm lg:blur-md group-hover:bg-royal/20 transition-colors" />
               </div>
-              <div className={lang === "ar" ? "text-right" : "text-left"}>
-                <span className="text-base md:text-lg font-black text-foreground block leading-none tracking-tight mb-0.5">
-                  {lang === "ar" ? "قلب الحياة" : "Qalb El Hayah"}
-                </span>
-                <span className="text-[9px] md:text-[10px] text-royal font-bold tracking-widest uppercase">
-                  {lang === "ar" ? "للتنمية" : "Foundation"}
+              <div className={`${lang === "ar" ? "text-right" : "text-left"} max-w-[10.5rem] sm:max-w-none`}>
+                <span className="text-sm sm:text-base md:text-lg font-black text-foreground block leading-none tracking-tight mb-0.5 truncate">
+                  {lang === "ar" ? "مؤسسة قلب الحياة للتنمية" : "Qalb El Hayah Foundation"}
                 </span>
               </div>
             </Link>
@@ -77,17 +82,15 @@ export default function Header() {
                 to="/services#booking"
                 className="inline-flex items-center gap-2 gradient-red-blue text-white px-5 py-2.5 rounded-full text-sm font-black shadow-md hover:shadow-lg hover:scale-[1.03] transition-all duration-300 btn-glow btn-ripple"
               >
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
                 {t.nav.book}
               </Link>
             </div>
 
             <button
               onClick={() => setOpen(!open)}
-              className="lg:hidden p-2.5 rounded-full hover:bg-accent transition-colors"
+              className="lg:hidden p-2.5 rounded-full hover:bg-accent transition-colors touch-manipulation"
               aria-label={lang === "ar" ? "فتح القائمة" : "Open Menu"}
+              aria-expanded={open}
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 {open ? (
@@ -101,7 +104,7 @@ export default function Header() {
         </div>
 
         {open && (
-          <div className="lg:hidden border-t border-border/40 glass animate-fade-in">
+          <div className="lg:hidden border-t border-border/40 bg-background/95 animate-fade-in">
             <nav className="flex flex-col px-4 py-4 gap-1">
               {navLinks.map((link) => (
                 <Link

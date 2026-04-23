@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -37,6 +37,27 @@ function PageLoader() {
   );
 }
 
+function RouteWarmup() {
+  useEffect(() => {
+    const warm = () => {
+      void import("./pages/About.tsx");
+      void import("./pages/Goals.tsx");
+      void import("./pages/Services.tsx");
+      void import("./pages/Programs.tsx");
+      void import("./pages/Contact.tsx");
+    };
+
+    const idle = window.requestIdleCallback?.(warm, { timeout: 1200 });
+    if (!idle) {
+      const timer = window.setTimeout(warm, 600);
+      return () => window.clearTimeout(timer);
+    }
+    return () => window.cancelIdleCallback?.(idle);
+  }, []);
+
+  return null;
+}
+
 const App = () => (
   <LanguageProvider>
     <ErrorBoundary>
@@ -45,6 +66,7 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
+            <RouteWarmup />
             <ScrollToTop />
             <Suspense fallback={<PageLoader />}>
               <Routes>

@@ -16,7 +16,7 @@ function StaggerGrid({ children, className = "" }: { children: React.ReactNode; 
 // Maps static data to translated keys
 const branchStatic = [
   {
-    icon: "🏛️",
+    icon: "🏥",
     mapUrl: "https://maps.google.com/?q=30.0444,31.2357",
     mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3453.5!2d31.2357!3d30.0444!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzDCsDAyJzM5LjgiTiAzMcKwMTQnMDguNSJF!5e0!3m2!1sar!2seg!4v1!5m2!1sar!2seg",
     phone: "01080036532",
@@ -28,7 +28,7 @@ const branchStatic = [
     phone: "01080036532",
   },
   {
-    icon: "💙",
+    icon: "🏥",
     mapUrl: "https://maps.google.com/?q=30.0131,31.2089",
     mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3454.0!2d31.2089!3d30.0131!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzDCsDAwJzQ3LjIiTiAzMcKwMTInMzIuMCJF!5e0!3m2!1sar!2seg!4v1!5m2!1sar!2seg",
     phone: "01080036532",

@@ -10,7 +10,10 @@ function AnimatedCounter({ end, suffix = "", duration = 2000, locale = "ar-EG" }
   const [count, setCount] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
   const started = useRef(false);
-  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const prefersReduced =
+    typeof window !== "undefined" &&
+    typeof window.matchMedia === "function" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   useEffect(() => {
     if (prefersReduced) { setCount(end); return; }
@@ -100,20 +103,20 @@ export default function ProgramsPage() {
       <section className="py-24">
         <div className="mx-auto max-w-7xl px-6">
           <RevealSection><SectionTitle title={t.programs.sectionTitle} subtitle={t.programs.sectionSub} /></RevealSection>
-          <div className="space-y-16">
+          <div className="space-y-10 md:space-y-14">
             {t.programs.items.map((p, i) => (
               <RevealSection key={p.title} type={i % 2 ? "reveal-left" : "reveal-right"}>
-                <div className={`flex flex-col ${i % 2 ? "md:flex-row-reverse" : "md:flex-row"} gap-0 items-stretch bg-card rounded-3xl overflow-hidden shadow-lg border border-border group hover:shadow-2xl transition-all duration-500 hover:border-royal/20`}>
-                  <div className="md:w-1/2 relative overflow-hidden">
-                    <img src={p.img} alt={p.title} className="w-full h-72 md:h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                <div className={`grid grid-cols-1 md:grid-cols-2 ${i % 2 ? "md:[&>*:first-child]:order-2 md:[&>*:last-child]:order-1" : ""} bg-card rounded-3xl overflow-hidden shadow-lg border border-border group hover:shadow-2xl transition-all duration-500 hover:border-royal/20`}>
+                  <div className="relative overflow-hidden min-h-[260px] md:min-h-[340px]">
+                    <img src={p.img} alt={p.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     <div className="absolute top-4 right-4 w-12 h-12 rounded-2xl gradient-primary flex items-center justify-center text-primary-foreground font-black text-lg shadow-lg">
                       {i + 1}
                     </div>
                   </div>
-                  <div className={`md:w-1/2 p-8 md:p-10 flex flex-col justify-center ${lang === "ar" ? "text-right" : "text-left"}`}>
-                    <h3 className="text-2xl font-bold mb-4 group-hover:text-royal transition-colors duration-300">{p.title}</h3>
-                    <p className="text-muted-foreground leading-relaxed mb-6">{p.desc}</p>
+                  <div className={`p-6 md:p-10 flex flex-col justify-center ${lang === "ar" ? "text-right" : "text-left"}`}>
+                    <h3 className="text-xl md:text-2xl font-bold mb-4 group-hover:text-royal transition-colors duration-300 break-words">{p.title}</h3>
+                    <p className="text-muted-foreground leading-relaxed mb-6 text-sm md:text-base break-words">{p.desc}</p>
                     <div className={`flex flex-wrap gap-3 ${lang === "ar" ? "flex-row-reverse" : "flex-row"}`}>
                       {p.stats.map((stat) => (
                         <div key={stat.label} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary text-secondary-foreground text-sm font-bold">

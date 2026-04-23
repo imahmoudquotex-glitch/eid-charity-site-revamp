@@ -1,31 +1,46 @@
 import { Link } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
-import heroImg from "@/assets/main-hero.png";
-import servicesImg from "@/assets/services-banner.jpg";
+import { useEffect, useRef, useState, useCallback } from "react";
+import heroImg from "@/assets/hero-bg.webp";
+import servicesImg from "@/assets/services-hero.webp";
 import SectionTitle from "@/components/SectionTitle";
 import Branches from "@/components/Branches";
 import { RevealSection, StaggerGrid } from "@/components/RevealSection";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import { useLang } from "@/contexts/LanguageContext";
 
-// Animated Counter with K-format support
+/* ── Scroll Progress Bar ─────────────────────────────── */
+function ScrollProgress() {
+  const [width, setWidth] = useState(0);
+  useEffect(() => {
+    const update = () => {
+      const el = document.documentElement;
+      const scrolled = el.scrollTop;
+      const total = el.scrollHeight - el.clientHeight;
+      setWidth(total > 0 ? (scrolled / total) * 100 : 0);
+    };
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
+  }, []);
+  return (
+    <div
+      className="scroll-progress"
+      style={{ width: `${width}%` }}
+      aria-hidden="true"
+    />
+  );
+}
+
+/* ── Animated Counter ────────────────────────────────── */
 function AnimatedCounter({
-  end,
-  suffix = "",
-  duration = 2000,
-  isK = false,
-  locale = "ar-EG",
-}: {
-  end: number;
-  suffix?: string;
-  duration?: number;
-  isK?: boolean;
-  locale?: string;
-}) {
+  end, suffix = "", duration = 2000, isK = false, locale = "ar-EG",
+}: { end: number; suffix?: string; duration?: number; isK?: boolean; locale?: string }) {
   const [count, setCount] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
   const started = useRef(false);
-  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const prefersReduced =
+    typeof window !== "undefined" &&
+    typeof window.matchMedia === "function" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   useEffect(() => {
     if (prefersReduced) { setCount(end); return; }
@@ -55,6 +70,7 @@ function AnimatedCounter({
   );
 }
 
+/* ── Partners data ───────────────────────────────────── */
 const partners = [
   { name: "وزارة التضامن الاجتماعي", nameEn: "Ministry of Social Solidarity", icon: "🏛️" },
   { name: "الهلال الأحمر المصري", nameEn: "Egyptian Red Crescent", icon: "🏥" },
@@ -64,32 +80,45 @@ const partners = [
   { name: "بنك الطعام المصري", nameEn: "Egyptian Food Bank", icon: "🍞" },
 ];
 
+/* ── Main Page ───────────────────────────────────────── */
 export default function Index() {
   const { lang, t } = useLang();
   const locale = lang === "ar" ? "ar-EG" : "en-US";
-
   usePageMeta(t.home.metaTitle, t.home.metaDesc);
 
   const heroRef = useRef<HTMLDivElement>(null);
+  const blob1Ref = useRef<HTMLDivElement>(null);
+  const blob2Ref = useRef<HTMLDivElement>(null);
   const tickerItems = t.home.ticker;
 
+  /* Preload hero */
   useEffect(() => {
-    const preloadId = "hero-preload-main";
-    if (document.getElementById(preloadId)) return;
-
+    const id = "hero-preload-main";
+    if (document.getElementById(id)) return;
     const link = document.createElement("link");
-    link.id = preloadId;
-    link.rel = "preload";
-    link.as = "image";
-    link.href = heroImg;
+    link.id = id; link.rel = "preload"; link.as = "image"; link.href = heroImg;
     document.head.appendChild(link);
-
-    return () => {
-      link.remove();
-    };
+    return () => link.remove();
   }, []);
 
+  /* Mouse parallax on hero blobs */
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    if (!heroRef.current) return;
+    const rect = heroRef.current.getBoundingClientRect();
+    const cx = (e.clientX - rect.left) / rect.width - 0.5;
+    const cy = (e.clientY - rect.top) / rect.height - 0.5;
+    if (blob1Ref.current)
+      blob1Ref.current.style.transform = `translate(${cx * 40}px, ${cy * 30}px) scale(1.05)`;
+    if (blob2Ref.current)
+      blob2Ref.current.style.transform = `translate(${cx * -30}px, ${cy * -20}px) scale(1.05)`;
+  }, []);
 
+  useEffect(() => {
+    const el = heroRef.current;
+    if (!el) return;
+    el.addEventListener("mousemove", handleMouseMove, { passive: true });
+    return () => el.removeEventListener("mousemove", handleMouseMove);
+  }, [handleMouseMove]);
 
   const stats = [
     { value: 6879, suffix: "", label: t.stats.beneficiaries, isK: false },
@@ -107,7 +136,9 @@ export default function Index() {
 
   return (
     <>
-      {/* Hero with Parallax */}
+      <ScrollProgress />
+
+      {/* ── Hero ── */}
       <section className="relative min-h-[92vh] flex items-center overflow-hidden">
         <div ref={heroRef} className="absolute inset-0 bg-navy">
           <img
@@ -121,46 +152,71 @@ export default function Index() {
           />
           <div className="absolute inset-0 bg-gradient-to-l from-black/80 via-black/55 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-          {/* Animated Magic Blobs */}
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-royal/40 rounded-full mix-blend-overlay filter blur-3xl opacity-50 animate-blob" />
-          <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-primary/40 rounded-full mix-blend-overlay filter blur-3xl opacity-50 animate-blob animation-delay-2000" />
-          <div className="absolute bottom-1/4 left-1/3 w-96 h-96 bg-hope/40 rounded-full mix-blend-overlay filter blur-3xl opacity-50 animate-blob animation-delay-4000" />
+
+          {/* Blobs with mouse parallax */}
+          <div
+            ref={blob1Ref}
+            className="absolute top-1/4 left-1/4 w-96 h-96 bg-royal/40 rounded-full mix-blend-overlay filter blur-3xl opacity-50 animate-blob"
+            style={{ transition: "transform 0.3s ease-out" }}
+          />
+          <div
+            ref={blob2Ref}
+            className="absolute bottom-1/4 left-1/3 w-96 h-96 bg-hope/40 rounded-full mix-blend-overlay filter blur-3xl opacity-50 animate-blob animation-delay-4000"
+            style={{ transition: "transform 0.3s ease-out" }}
+          />
+          <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-royal/22 rounded-full mix-blend-overlay filter blur-3xl opacity-35 animate-blob animation-delay-2000" />
+
+          {/* Floating particles */}
+          <div className="particle particle-1 w-3 h-3 bg-white/30 top-[20%] right-[15%]" />
+          <div className="particle particle-2 w-2 h-2 bg-royal/60 top-[60%] right-[25%]" />
+          <div className="particle particle-3 w-4 h-4 bg-gold/40 top-[35%] left-[10%]" />
+          <div className="particle particle-4 w-2 h-2 bg-white/20 bottom-[30%] right-[40%]" />
+          <div className="particle particle-5 w-3 h-3 bg-primary/40 top-[75%] left-[20%]" />
         </div>
 
+        {/* Hero content */}
         <div className="relative z-10 mx-auto max-w-7xl w-full px-6 sm:px-8 lg:px-12 py-24">
           <div className="max-w-xl animate-fade-up">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-dark text-sm mb-8 border border-white/10 text-primary-foreground/90">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-dark text-sm mb-8 border border-white/10 text-primary-foreground/90 animate-slide-up">
               <span className="w-2 h-2 rounded-full bg-royal animate-pulse" />
               {t.hero.badge}
             </div>
 
-            <h1 className="text-[2.75rem] sm:text-5xl md:text-6xl leading-[1.1] mb-6 tracking-tight text-primary-foreground">
+            <h1 className="text-[2.75rem] sm:text-5xl md:text-6xl leading-[1.1] mb-6 tracking-tight text-primary-foreground animate-slide-up animate-slide-up-delay-1">
               {t.hero.title1}
               <br />
               <span className="text-glow-blue">{t.hero.title2}</span>
             </h1>
 
-            <p className="text-xl sm:text-2xl mb-2 font-display text-primary-foreground/95">
+            <p className="text-xl sm:text-2xl mb-2 font-display text-primary-foreground/95 animate-slide-up animate-slide-up-delay-2">
               {t.hero.subtitle}
             </p>
-            <p className="text-sm mb-10 max-w-lg text-primary-foreground/50 leading-relaxed">
+            <p className="text-sm mb-10 max-w-lg text-primary-foreground/50 leading-relaxed animate-slide-up animate-slide-up-delay-3">
               {t.hero.desc}
             </p>
 
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-3 animate-slide-up animate-slide-up-delay-4">
               <Link
                 to="/services#booking"
-                className="inline-flex items-center gap-2 gradient-red-blue text-primary-foreground px-7 py-3.5 rounded-full text-base shadow-lg hover:shadow-xl hover:scale-[1.04] transition-all duration-300 btn-glow btn-ripple"
+                className="inline-flex items-center gap-2 gradient-red-blue text-primary-foreground px-7 py-3.5 rounded-full text-base shadow-lg hover:shadow-xl hover:scale-[1.06] transition-all duration-300 btn-glow btn-ripple glow-pulse-red"
               >
                 {t.hero.book}
               </Link>
               <Link
                 to="/services"
-                className="inline-flex items-center gap-2 glass-dark border border-white/20 text-primary-foreground px-7 py-3.5 rounded-full text-base hover:bg-white/20 hover:scale-[1.04] transition-all duration-300"
+                className="inline-flex items-center gap-2 glass-dark border border-white/20 text-primary-foreground px-7 py-3.5 rounded-full text-base hover:bg-white/20 hover:scale-[1.06] transition-all duration-300"
               >
                 {t.hero.explore}
               </Link>
             </div>
+          </div>
+        </div>
+
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 opacity-60 hover:opacity-100 transition-opacity">
+          <span className="text-white/70 text-xs tracking-widest uppercase">scroll</span>
+          <div className="w-6 h-10 border-2 border-white/40 rounded-full flex items-start justify-center p-1">
+            <div className="w-1 h-2 bg-white/80 rounded-full animate-bounce" />
           </div>
         </div>
 
@@ -171,10 +227,10 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Stats Ticker */}
+      {/* ── Stats Ticker ── */}
       <section className="py-4 -mt-1 overflow-hidden bg-card border-y border-border/50">
         <div>
-          <div className="flex w-max" style={{ animation: "tickerScroll 50s linear infinite" }}>
+          <div className="flex w-max" style={{ animation: "tickerScroll 40s linear infinite" }}>
             {[...Array(2)].map((_, repeat) => (
               <div key={repeat} className="flex items-center shrink-0">
                 {tickerItems.map((item, i) => (
@@ -190,19 +246,23 @@ export default function Index() {
         </div>
       </section>
 
-      {/* About Preview */}
+      {/* ── About Cards ── */}
       <section className="py-20 section-pattern">
         <div className="mx-auto max-w-7xl px-6">
           <RevealSection>
             <SectionTitle title={t.about.title} subtitle={t.about.sub} />
           </RevealSection>
           <StaggerGrid className="grid md:grid-cols-3 gap-6">
-            {aboutCards.map((item) => (
-              <div key={item.title} className="bg-card/80 backdrop-blur-sm rounded-3xl p-8 shadow-sm border border-border/60 card-hover group shimmer-border tilt-card">
+            {aboutCards.map((item, i) => (
+              <div
+                key={item.title}
+                className="bg-card/80 backdrop-blur-sm rounded-3xl p-8 shadow-sm border border-border/60 card-hover group shimmer-border shimmer-sweep tilt-card"
+                style={{ animationDelay: `${i * 120}ms` }}
+              >
                 <div className={`w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-inner ${item.color === "primary" ? "gradient-primary" : "gradient-royal"} group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
                   {item.icon}
                 </div>
-                <h3 className="text-2xl mb-4 font-bold">{item.title}</h3>
+                <h3 className="text-2xl mb-4 font-bold group-hover:text-royal transition-colors duration-300">{item.title}</h3>
                 <p className="text-muted-foreground leading-relaxed text-base">{item.desc}</p>
               </div>
             ))}
@@ -210,10 +270,11 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Impact Stats */}
+      {/* ── Impact Stats ── */}
       <section className="py-20 section-blue-tint relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/2 left-1/3 w-96 h-96 bg-royal/10 rounded-full blur-3xl animate-blob" />
+          <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-primary/8 rounded-full blur-3xl animate-blob animation-delay-2000" />
         </div>
         <div className="mx-auto max-w-6xl px-6 relative z-10">
           <RevealSection>
@@ -223,7 +284,7 @@ export default function Index() {
             {stats.map((stat, i) => (
               <div
                 key={stat.label}
-                className="space-y-4 bg-card/80 backdrop-blur-sm rounded-3xl p-8 shadow-md border border-border/60 card-hover float-shadow"
+                className="space-y-4 bg-card/80 backdrop-blur-sm rounded-3xl p-8 shadow-md border border-border/60 card-hover float-shadow glow-pulse-blue shimmer-sweep"
                 style={{ animationDelay: `${i * 200}ms` }}
               >
                 <AnimatedCounter end={stat.value} suffix={stat.suffix} isK={stat.isK} locale={locale} />
@@ -234,11 +295,11 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Fields */}
+      {/* ── Fields ── */}
       <section className="py-20 section-red-tint relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 left-1/4 w-80 h-80 bg-royal/10 rounded-full blur-3xl animate-blob" />
-          <div className="absolute bottom-0 right-1/4 w-[28rem] h-[28rem] bg-primary/10 rounded-full blur-3xl animate-blob animation-delay-2000" />
+          <div className="absolute top-0 left-1/4 w-80 h-80 bg-royal/8 rounded-full blur-3xl animate-blob" />
+          <div className="absolute bottom-0 right-1/4 w-[28rem] h-[28rem] bg-royal/6 rounded-full blur-3xl animate-blob animation-delay-2000" />
         </div>
         <div className="mx-auto max-w-7xl px-6 relative z-10">
           <RevealSection>
@@ -249,12 +310,12 @@ export default function Index() {
               <Link
                 key={field.label}
                 to="/goals"
-                className="relative bg-card/80 backdrop-blur-sm rounded-3xl p-7 text-center shadow-sm border border-border/60 shimmer-border group block overflow-hidden transition-all duration-500 hover:shadow-xl tilt-card"
+                className="relative bg-card/80 backdrop-blur-sm rounded-3xl p-7 text-center shadow-sm border border-border/60 shimmer-border group block overflow-hidden transition-all duration-500 hover:shadow-xl tilt-card gradient-border-animate"
                 style={{ animationDelay: `${i * 80}ms` }}
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-royal/0 via-royal/0 to-royal/0 group-hover:from-royal/5 group-hover:via-transparent group-hover:to-primary/5 transition-all duration-500 rounded-2xl" />
                 <div className="relative z-10">
-                  <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-secondary flex items-center justify-center text-3xl group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-lg group-hover:bg-royal/10 transition-all duration-500 ease-out">
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-secondary flex items-center justify-center text-3xl group-hover:scale-110 group-hover:rotate-6 group-hover:shadow-lg group-hover:bg-royal/10 transition-all duration-500 ease-out">
                     {field.icon}
                   </div>
                   <h3 className="text-sm font-bold leading-snug mb-1.5 group-hover:text-royal transition-colors duration-300">{field.label}</h3>
@@ -264,9 +325,9 @@ export default function Index() {
             ))}
           </StaggerGrid>
           <RevealSection className="text-center mt-12">
-            <Link to="/goals" className="inline-flex items-center gap-2 gradient-primary text-primary-foreground px-8 py-3.5 rounded-full shadow-lg hover:shadow-2xl hover:scale-[1.05] transition-all duration-300 btn-glow group">
+            <Link to="/goals" className="inline-flex items-center gap-2 gradient-primary text-primary-foreground px-8 py-3.5 rounded-full shadow-lg hover:shadow-2xl hover:scale-[1.05] transition-all duration-300 btn-glow group animate-breathe">
               {t.fields.btn}
-              <svg className={`w-4 h-4 ${lang === "ar" ? "rotate-180" : ""} group-hover:${lang === "ar" ? "-translate-x-1" : "translate-x-1"} transition-transform duration-300`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <svg className={`w-4 h-4 ${lang === "ar" ? "rotate-180" : ""} group-hover:translate-x-1 transition-transform duration-300`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
               </svg>
             </Link>
@@ -274,7 +335,7 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Foundation / Services */}
+      {/* ── Foundation / Services ── */}
       <section className="py-20">
         <div className="mx-auto max-w-7xl px-6">
           <RevealSection>
@@ -304,7 +365,9 @@ export default function Index() {
               <div className="space-y-4">
                 {t.foundation.items.map((s) => (
                   <div key={s.title} className="flex gap-4 items-center bg-card/80 backdrop-blur-sm rounded-2xl p-5 border border-border/60 shadow-sm shimmer-border card-hover tilt-card group">
-                    <div className="w-12 h-12 rounded-xl gradient-royal flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition-transform duration-300">{s.icon}</div>
+                    <div className="w-12 h-12 rounded-xl gradient-royal flex items-center justify-center text-xl shrink-0 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
+                      {s.icon}
+                    </div>
                     <div>
                       <h4 className="font-bold text-sm group-hover:text-royal transition-colors">{s.title}</h4>
                       <p className="text-xs text-muted-foreground">{s.desc}</p>
@@ -317,7 +380,7 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Partners Section */}
+      {/* ── Partners ── */}
       <section className="py-20 section-warm-tint relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-0 right-1/3 w-80 h-80 bg-gold/10 rounded-full blur-3xl animate-blob animation-delay-4000" />
@@ -328,9 +391,14 @@ export default function Index() {
           </RevealSection>
           <StaggerGrid className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
             {partners.map((partner) => (
-              <div key={partner.name} className="bg-card/70 backdrop-blur-md rounded-3xl p-6 text-center shadow-sm border border-border/50 card-hover group shimmer-border tilt-card">
-                <div className="text-5xl mb-4 group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-500">{partner.icon}</div>
-                <p className="text-sm font-bold text-muted-foreground group-hover:text-royal transition-colors">
+              <div
+                key={partner.name}
+                className="bg-card/70 backdrop-blur-md rounded-3xl p-6 text-center shadow-sm border border-border/50 card-hover group shimmer-border shimmer-sweep tilt-card"
+              >
+                <div className="text-5xl mb-4 group-hover:scale-125 group-hover:-rotate-6 transition-transform duration-500 float-up-down">
+                  {partner.icon}
+                </div>
+                <p className="text-sm font-bold text-muted-foreground group-hover:text-royal transition-colors underline-grow">
                   {lang === "ar" ? partner.name : partner.nameEn}
                 </p>
               </div>
@@ -339,10 +407,10 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Branches */}
+      {/* ── Branches ── */}
       <Branches />
 
-      {/* FAQ Section */}
+      {/* ── FAQ ── */}
       <section className="py-20 section-blue-tint">
         <div className="mx-auto max-w-3xl px-6">
           <RevealSection>
@@ -357,11 +425,11 @@ export default function Index() {
           </RevealSection>
         </div>
       </section>
-
     </>
   );
 }
 
+/* ── FAQ Accordion ───────────────────────────────────── */
 function FAQItem({ question, answer, lang }: { question: string; answer: string; lang: string }) {
   const [open, setOpen] = useState(false);
   return (
@@ -371,7 +439,7 @@ function FAQItem({ question, answer, lang }: { question: string; answer: string;
         className={`w-full flex items-center justify-between p-6 ${lang === "ar" ? "text-right" : "text-left"}`}
       >
         <span className="font-bold text-sm" dir="auto">{question}</span>
-        <svg className={`w-5 h-5 text-muted-foreground shrink-0 transition-transform duration-300 ${open ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <svg className={`w-5 h-5 text-muted-foreground shrink-0 transition-transform duration-300 ${open ? "rotate-180 text-royal" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
         </svg>
       </button>
