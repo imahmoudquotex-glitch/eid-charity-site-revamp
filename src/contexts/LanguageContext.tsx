@@ -99,6 +99,7 @@ interface Translation {
   donation: {
     title: string;
     sub: string;
+    quote: string;
     btn: string;
     desc: string;
     impact: Array<{ label: string; value: string }>;
@@ -311,6 +312,7 @@ const translations: Record<Language, Translation> = {
     donation: {
       title: "التبرعات",
       sub: "ساهم في تغيير حياة طفل",
+      quote: "باب واحد يفتح ابواب خير كتير",
       btn: "تبرع الآن",
       desc: "تبرعاتكم هي المحرك الأساسي لخدماتنا ومشاريعنا التنموية لضمان مستقبل أفضل لكل طفل.",
       impact: [
@@ -814,6 +816,7 @@ const translations: Record<Language, Translation> = {
     donation: {
       title: "Donation",
       sub: "Change a Child's Life",
+      quote: "One door opens many doors of good",
       btn: "Donate Now",
       desc: "Your contributions are the core engine of our rehabilitation services and developmental projects.",
       impact: [

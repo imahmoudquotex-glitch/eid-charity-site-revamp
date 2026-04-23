@@ -93,7 +93,7 @@ export default function Footer() {
               <div className={`flex flex-col ${lang === "ar" ? "items-end" : "items-start"} gap-2`}>
                 <Link to="/" className="inline-block group">
                   <img src="/assets/logo.png" alt="Logo"
-                    className="h-11 w-auto brightness-0 invert opacity-90 group-hover:opacity-100 transition-opacity" />
+                    className="h-11 w-auto opacity-95 group-hover:opacity-100 transition-opacity" />
                 </Link>
                 <h3 className="text-2xl font-black tracking-tight"
                   style={{ background: "linear-gradient(135deg, #fff 40%, rgba(255,255,255,0.55) 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>

@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect, useMemo } from "react";
-import logo from "@/assets/site-logo.jpg";
+import logo from "@/assets/site-logo.png";
 import { useLang } from "@/contexts/LanguageContext";
 
 export default function Header() {
@@ -15,7 +15,6 @@ export default function Header() {
     { to: "/goals", label: t.nav.goals },
     { to: "/services", label: t.nav.services },
     { to: "/programs", label: t.nav.programs },
-    { to: "/donations", label: t.nav.donations },
     { to: "/contact", label: t.nav.contact },
   ], [t]);
 
@@ -41,9 +40,9 @@ export default function Header() {
         <div className={`mx-auto max-w-7xl ${lang === "ar" ? "pr-2 pl-4 sm:pr-3 sm:pl-6 lg:pr-4 lg:pl-8" : "pl-2 pr-4 sm:pl-3 sm:pr-6 lg:pl-4 lg:pr-8"}`}>
           <div className="flex h-[4.25rem] lg:h-[4.5rem] items-center justify-between">
             <Link to="/" className={`flex items-center gap-3 shrink-0 group ${lang === "ar" ? "-mr-1 lg:-mr-2" : ""}`}>
-              <div className="relative">
-                <img src={logo} alt={lang === "ar" ? "مؤسسة قلب الحياة للتنمية" : "Qalb El Hayah Foundation"} className="h-10 w-10 lg:h-11 lg:w-11 rounded-lg group-hover:scale-105 transition-transform duration-300 drop-shadow-md object-contain" width={44} height={44} />
-                <div className="absolute -inset-1 rounded-full bg-royal/10 blur-sm lg:blur-md group-hover:bg-royal/20 transition-colors" />
+              <div className="relative -translate-y-2.5 lg:-translate-y-3">
+                <img src={logo} alt={lang === "ar" ? "مؤسسة قلب الحياة للتنمية" : "Qalb El Hayah Foundation"} className="h-11 w-11 lg:h-12 lg:w-12 group-hover:scale-110 transition-transform duration-500 drop-shadow-[0_0_8px_rgba(var(--royal-rgb),0.5)] object-contain" width={48} height={48} />
+                <div className="absolute -inset-1.5 rounded-full bg-royal/20 blur-md lg:blur-lg group-hover:bg-royal/30 transition-all duration-500 animate-pulse" />
               </div>
               <div className={`${lang === "ar" ? "text-right" : "text-left"} max-w-[10.5rem] sm:max-w-none`}>
                 <span className="text-sm sm:text-base md:text-lg font-black text-foreground block leading-none tracking-tight mb-0.5 truncate">
