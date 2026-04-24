@@ -46,22 +46,22 @@ export default function Header() {
                 <img src={logo} alt={lang === "ar" ? "مؤسسة قلب الحياة للتنمية" : "Qalb El Hayah Foundation"} className="h-10 w-10 sm:h-12 sm:w-12 lg:h-14 lg:w-14 group-hover:rotate-3 transition-all duration-500 drop-shadow-xl object-contain" />
                 <div className="absolute -inset-2 rounded-full bg-royal/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
-              <div className={`${lang === "ar" ? "text-right" : "text-left"} hidden sm:block max-w-[120px] lg:max-w-none`}>
-                <span className="text-sm lg:text-base xl:text-lg font-black text-foreground block leading-tight tracking-tight truncate">
+              <div className={`${lang === "ar" ? "text-right" : "text-left"} hidden sm:block max-w-[120px] lg:max-w-[200px] xl:max-w-none`}>
+                <span className="text-[12px] lg:text-[15px] xl:text-lg font-black text-foreground block leading-tight tracking-tight">
                   {lang === "ar" ? "مؤسسة قلب الحياة للتنمية" : "Qalb El Hayah Foundation"}
                 </span>
-                <span className="text-[9px] lg:text-[10px] uppercase tracking-[0.15em] xl:tracking-[0.2em] font-bold text-royal opacity-80 block truncate">
+                <span className="text-[8px] lg:text-[10px] xl:text-[11px] uppercase tracking-wider xl:tracking-[0.2em] font-bold text-royal opacity-80 block">
                   {lang === "ar" ? "تأهيل . تنمية . رعاية" : "Rehab . Dev . Care"}
                 </span>
               </div>
             </Link>
 
-            <nav className="hidden lg:flex items-center gap-0.5 bg-background/50 backdrop-blur-md rounded-full px-1 py-1 border border-border/40 shadow-sm">
+            <nav className="hidden lg:flex items-center gap-1 bg-background/50 backdrop-blur-md rounded-full p-1 border border-border/40 shadow-sm">
               {navLinks.map((link) => (
                 <Link
                   key={link.to}
                   to={link.to}
-                  className={`relative px-2.5 xl:px-4 py-2 rounded-full text-[13px] xl:text-[15px] font-bold transition-all duration-300 ${
+                  className={`relative px-3 xl:px-4 py-2 rounded-full text-[13px] xl:text-[15px] font-bold transition-all duration-300 whitespace-nowrap ${
                     location.pathname === link.to
                       ? "text-white gradient-royal shadow-md"
                       : "text-muted-foreground hover:text-foreground hover:bg-accent/80"
@@ -72,35 +72,35 @@ export default function Header() {
               ))}
             </nav>
 
-            <div className="hidden lg:flex items-center gap-2 xl:gap-3">
+            <div className="hidden lg:flex items-center gap-2 xl:gap-4">
               <div className="flex items-center gap-1.5 xl:gap-2">
                 <Link
                   to="/donations"
-                  className="inline-flex items-center gap-2 gradient-royal text-white px-3.5 xl:px-5 py-2.5 rounded-full text-[13px] xl:text-[15px] font-black shadow-md hover:shadow-lg hover:scale-[1.03] transition-all duration-300 btn-glow"
+                  className="inline-flex items-center gap-2 gradient-royal text-white px-4 xl:px-6 py-2.5 rounded-full text-[13px] xl:text-[15px] font-black shadow-md hover:shadow-lg hover:scale-[1.03] transition-all duration-300 btn-glow"
                 >
-                  <Heart className="w-3.5 h-3.5 xl:w-4 xl:h-4 fill-white" />
-                  <span className="hidden xl:inline">{lang === 'ar' ? 'تبرع الآن' : 'تبرع'}</span>
+                  <Heart className="w-4 h-4 fill-white" />
+                  <span className="hidden xl:inline">{lang === 'ar' ? 'تبرع الآن' : 'Donate Now'}</span>
                   <span className="xl:hidden">{lang === 'ar' ? 'تبرع' : 'Donate'}</span>
                 </Link>
                 <Link
                   to="/services#booking"
-                  className="inline-flex items-center gap-2 gradient-red-blue text-white px-3.5 xl:px-5 py-2.5 rounded-full text-[13px] xl:text-[15px] font-black shadow-md hover:shadow-lg hover:scale-[1.03] transition-all duration-300 btn-glow btn-ripple"
+                  className="inline-flex items-center gap-2 gradient-red-blue text-white px-4 xl:px-6 py-2.5 rounded-full text-[13px] xl:text-[15px] font-black shadow-md hover:shadow-lg hover:scale-[1.03] transition-all duration-300 btn-glow"
                 >
-                  <Calendar className="w-3.5 h-3.5 xl:w-4 xl:h-4" />
+                  <Calendar className="w-4 h-4" />
                   <span className="hidden xl:inline">{t.nav.book}</span>
                   <span className="xl:hidden">{lang === 'ar' ? 'احجز' : 'Book'}</span>
                 </Link>
               </div>
 
-              <div className="w-[1px] h-6 bg-border/60 mx-0.5" />
+              <div className="w-[1px] h-8 bg-border/40 mx-1" />
 
               <button
                 onClick={toggleLang}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-full border border-border/60 text-xs xl:text-sm font-black hover:bg-accent hover:border-royal/30 transition-all duration-300 tracking-wider bg-background/50 shadow-sm"
+                className="flex items-center gap-1.5 px-3 xl:px-4 py-2.5 rounded-full border border-border/60 text-[12px] xl:text-sm font-black hover:bg-accent transition-all duration-300 bg-background/50 shadow-sm"
                 aria-label={lang === "ar" ? "Switch language to English" : "تبديل اللغة للعربية"}
               >
-                <Globe className="w-4 h-4 text-royal animate-pulse-subtle" />
-                {lang === "ar" ? "EN" : "عربي"}
+                <Globe className="w-4 h-4 text-royal" />
+                {lang === "ar" ? "English" : "عربي"}
               </button>
             </div>
 
