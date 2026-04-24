@@ -38,32 +38,32 @@ export default function Header() {
 
   return (
     <>
-      <header className={`fixed w-full top-0 z-50 transition-all duration-300 ${scrolled ? "glass shadow-lg border-b border-border/30" : "bg-background/90 lg:bg-background/80 lg:backdrop-blur-sm"}`}>
-        <div className={`mx-auto max-w-7xl ${lang === "ar" ? "pr-2 pl-4 sm:pr-3 sm:pl-6 lg:pr-4 lg:pl-8" : "pl-2 pr-4 sm:pl-3 sm:pr-6 lg:pl-4 lg:pr-8"}`}>
-          <div className="flex h-[4.25rem] lg:h-[4.5rem] items-center justify-between">
-            <Link to="/" className={`flex items-center gap-3 shrink-0 group transition-transform duration-300 hover:scale-[1.02] ${lang === "ar" ? "-mr-1 lg:-mr-2 translate-y-[-3px]" : "translate-y-[-3px]"}`}>
+      <header className={`fixed w-full top-0 z-50 transition-all duration-500 ${scrolled ? "glass shadow-lg border-b border-border/30" : "bg-background/95 lg:bg-background/80 lg:backdrop-blur-md"}`}>
+        <div className={`mx-auto max-w-7xl px-4 sm:px-6 lg:px-8`}>
+          <div className="flex h-[4.5rem] lg:h-[5rem] items-center justify-between gap-4">
+            <Link to="/" className="flex items-center gap-2 xl:gap-3 shrink-0 group transition-all duration-300 hover:scale-[1.02]">
               <div className="relative">
-                <img src={logo} alt={lang === "ar" ? "مؤسسة قلب الحياة للتنمية" : "Qalb El Hayah Foundation"} className="h-13 w-13 lg:h-16 lg:w-16 group-hover:rotate-3 transition-all duration-500 drop-shadow-xl object-contain" width={64} height={64} />
+                <img src={logo} alt={lang === "ar" ? "مؤسسة قلب الحياة للتنمية" : "Qalb El Hayah Foundation"} className="h-10 w-10 sm:h-12 sm:w-12 lg:h-14 lg:w-14 group-hover:rotate-3 transition-all duration-500 drop-shadow-xl object-contain" />
                 <div className="absolute -inset-2 rounded-full bg-royal/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
-              <div className={`${lang === "ar" ? "text-right" : "text-left"} max-w-[10.5rem] sm:max-w-none`}>
-                <span className="text-sm sm:text-base md:text-lg font-black text-foreground block leading-none tracking-tight mb-0.5 truncate drop-shadow-sm">
+              <div className={`${lang === "ar" ? "text-right" : "text-left"} hidden sm:block max-w-[120px] lg:max-w-none`}>
+                <span className="text-sm lg:text-base xl:text-lg font-black text-foreground block leading-tight tracking-tight truncate">
                   {lang === "ar" ? "مؤسسة قلب الحياة للتنمية" : "Qalb El Hayah Foundation"}
                 </span>
-                <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-royal opacity-80 block">
+                <span className="text-[9px] lg:text-[10px] uppercase tracking-[0.15em] xl:tracking-[0.2em] font-bold text-royal opacity-80 block truncate">
                   {lang === "ar" ? "تأهيل . تنمية . رعاية" : "Rehab . Dev . Care"}
                 </span>
               </div>
             </Link>
 
-            <nav className="hidden lg:flex items-center gap-1 bg-background/50 backdrop-blur-md rounded-full px-2 py-1.5 border border-border/40 shadow-sm">
+            <nav className="hidden lg:flex items-center gap-0.5 bg-background/50 backdrop-blur-md rounded-full px-1 py-1 border border-border/40 shadow-sm">
               {navLinks.map((link) => (
                 <Link
                   key={link.to}
                   to={link.to}
-                  className={`relative px-4 py-2 rounded-full text-sm font-bold transition-all duration-300 ${
+                  className={`relative px-2.5 xl:px-4 py-2 rounded-full text-[13px] xl:text-[15px] font-bold transition-all duration-300 ${
                     location.pathname === link.to
-                      ? "text-royal-foreground gradient-royal shadow-md"
+                      ? "text-white gradient-royal shadow-md"
                       : "text-muted-foreground hover:text-foreground hover:bg-accent/80"
                   }`}
                 >
@@ -72,110 +72,85 @@ export default function Header() {
               ))}
             </nav>
 
-            <div className="hidden lg:flex items-center gap-4">
-              <Link
-                to="/donations"
-                className="group relative px-6 py-2.5 rounded-full font-black text-sm transition-all duration-500 overflow-hidden"
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-royal to-blue-600 group-hover:scale-105 transition-transform duration-500" />
-                <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
-                <span className="relative z-10 text-white flex items-center gap-2">
-                  <Heart className="w-4 h-4 fill-white animate-pulse" />
-                  {t.nav.donations}
-                </span>
-              </Link>
-
-              <button
-                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-                className="relative px-6 py-2.5 rounded-full font-black text-sm text-royal border-2 border-royal/30 hover:border-royal hover:bg-royal/5 transition-all duration-300 overflow-hidden group"
-              >
-                <span className="relative z-10 flex items-center gap-2">
-                  <Calendar className="w-4 h-4 group-hover:rotate-12 transition-transform" />
-                  {t.nav.book}
-                </span>
-              </button>
-            </div>
-
-            <div className="hidden lg:flex items-center gap-2">
-              <button
-                onClick={toggleLang}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-full border border-border/60 text-xs font-black hover:bg-accent transition-all duration-300 tracking-widest"
-                aria-label={lang === "ar" ? "Switch language to English" : "تبديل اللغة للعربية"}
-              >
-                <svg className="w-3.5 h-3.5 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
-                </svg>
-                {lang === "ar" ? "EN" : "عر"}
-              </button>
-              <div className="flex items-center gap-4 mx-2">
+            <div className="hidden lg:flex items-center gap-2 xl:gap-3">
+              <div className="flex items-center gap-1.5 xl:gap-2">
                 <Link
                   to="/donations"
-                  className="inline-flex items-center gap-2 gradient-royal text-white px-5 py-2.5 rounded-full text-sm font-black shadow-md hover:shadow-lg hover:scale-[1.03] transition-all duration-300 btn-glow"
+                  className="inline-flex items-center gap-2 gradient-royal text-white px-3.5 xl:px-5 py-2.5 rounded-full text-[13px] xl:text-[15px] font-black shadow-md hover:shadow-lg hover:scale-[1.03] transition-all duration-300 btn-glow"
                 >
-                  {lang === 'ar' ? 'تبرع الآن' : 'Donate Now'}
+                  <Heart className="w-3.5 h-3.5 xl:w-4 xl:h-4 fill-white" />
+                  <span className="hidden xl:inline">{lang === 'ar' ? 'تبرع الآن' : 'تبرع'}</span>
+                  <span className="xl:hidden">{lang === 'ar' ? 'تبرع' : 'Donate'}</span>
                 </Link>
                 <Link
                   to="/services#booking"
-                  className="inline-flex items-center gap-2 gradient-red-blue text-white px-5 py-2.5 rounded-full text-sm font-black shadow-md hover:shadow-lg hover:scale-[1.03] transition-all duration-300 btn-glow btn-ripple"
+                  className="inline-flex items-center gap-2 gradient-red-blue text-white px-3.5 xl:px-5 py-2.5 rounded-full text-[13px] xl:text-[15px] font-black shadow-md hover:shadow-lg hover:scale-[1.03] transition-all duration-300 btn-glow btn-ripple"
                 >
-                  {t.nav.book}
+                  <Calendar className="w-3.5 h-3.5 xl:w-4 xl:h-4" />
+                  <span className="hidden xl:inline">{t.nav.book}</span>
+                  <span className="xl:hidden">{lang === 'ar' ? 'احجز' : 'Book'}</span>
                 </Link>
               </div>
+
+              <div className="w-[1px] h-6 bg-border/60 mx-0.5" />
+
+              <button
+                onClick={toggleLang}
+                className="flex items-center gap-1.5 px-3 py-2 rounded-full border border-border/60 text-xs xl:text-sm font-black hover:bg-accent hover:border-royal/30 transition-all duration-300 tracking-wider bg-background/50 shadow-sm"
+                aria-label={lang === "ar" ? "Switch language to English" : "تبديل اللغة للعربية"}
+              >
+                <Globe className="w-4 h-4 text-royal animate-pulse-subtle" />
+                {lang === "ar" ? "EN" : "عربي"}
+              </button>
             </div>
 
             <button
               onClick={() => setOpen(!open)}
-              className="lg:hidden p-2.5 rounded-full hover:bg-accent transition-colors touch-manipulation"
+              className="lg:hidden p-2.5 rounded-full hover:bg-accent transition-colors touch-manipulation bg-accent/30"
               aria-label={lang === "ar" ? "فتح القائمة" : "Open Menu"}
               aria-expanded={open}
             >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                {open ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                )}
-              </svg>
+              {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
         </div>
 
         {open && (
-          <div className="lg:hidden border-t border-border/40 bg-background/95 animate-fade-in">
-            <nav className="flex flex-col px-4 py-4 gap-1">
+          <div className="lg:hidden border-t border-border/40 bg-background/98 animate-fade-in backdrop-blur-xl">
+            <nav className="flex flex-col px-4 py-6 gap-1">
               {navLinks.map((link) => (
                 <Link
                   key={link.to}
                   to={link.to}
                   className={`px-4 py-3 rounded-xl text-sm font-bold transition-all ${
                     location.pathname === link.to
-                      ? "text-royal-foreground gradient-royal font-black"
+                      ? "text-white gradient-royal font-black shadow-md"
                       : "text-muted-foreground hover:bg-accent"
                   }`}
                 >
                   {link.label}
                 </Link>
               ))}
-              <div className="mt-3 flex flex-col gap-2">
-                <Link to="/donations" className="group relative px-5 py-3.5 rounded-2xl font-black text-sm transition-all duration-300 overflow-hidden text-center shadow-lg shadow-royal/20">
-                  <div className="absolute inset-0 bg-gradient-to-r from-royal to-blue-600" />
-                  <span className="relative z-10 text-white flex items-center justify-center gap-2">
-                    <Heart className="w-4 h-4 fill-white animate-pulse" />
-                    {t.nav.donations}
-                  </span>
+              <div className="mt-6 flex flex-col gap-3">
+                <Link 
+                  to="/donations" 
+                  className="inline-flex items-center justify-center gap-2 gradient-royal text-white px-5 py-4 rounded-xl text-sm font-black shadow-lg"
+                >
+                  <Heart className="w-4 h-4 fill-white" />
+                  {lang === 'ar' ? 'تبرع الآن' : 'Donate Now'}
                 </Link>
                 
-                <button 
-                  onClick={() => { setOpen(false); document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }); }}
-                  className="px-5 py-3.5 rounded-2xl font-black text-sm text-royal border-2 border-royal/30 hover:bg-royal/5 transition-all text-center flex items-center justify-center gap-2"
+                <Link
+                  to="/services#booking"
+                  className="inline-flex items-center justify-center gap-2 gradient-red-blue text-white px-5 py-4 rounded-xl text-sm font-black shadow-lg"
                 >
                   <Calendar className="w-4 h-4" />
                   {t.nav.book}
-                </button>
+                </Link>
 
                 <button
                   onClick={toggleLang}
-                  className="flex items-center justify-center gap-3 bg-navy/5 border border-border rounded-2xl px-5 py-3.5 text-sm font-black hover:bg-accent transition-colors"
+                  className="flex items-center justify-center gap-3 bg-accent border border-border rounded-xl px-5 py-4 text-sm font-black"
                 >
                   <Globe className="w-4 h-4 text-royal" />
                   <span>{lang === "ar" ? "English Version" : "النسخة العربية"}</span>
@@ -185,7 +160,7 @@ export default function Header() {
           </div>
         )}
       </header>
-      <div className="h-[4.5rem]" />
+      <div className="h-[4.5rem] lg:h-[5rem]" />
     </>
   );
 }
