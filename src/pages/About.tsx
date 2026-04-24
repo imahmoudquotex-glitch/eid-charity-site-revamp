@@ -85,3 +85,10 @@ export default function AboutPage() {
     </>
   );
 }
+    ))}
+          </StaggerGrid>
+        </div>
+      </section>
+    </>
+  );
+}

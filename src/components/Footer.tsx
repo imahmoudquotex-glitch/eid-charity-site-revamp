@@ -194,7 +194,7 @@ export default function Footer() {
                 { src: misrElKheir, name: lang === "ar" ? "مصر الخير" : "Misr El Kheir" },
                 { src: resala, name: lang === "ar" ? "رسالة" : "Resala" },
                 { src: solidarity, name: lang === "ar" ? "وزارة التضامن" : "Solidarity Ministry" },
-                { src: crs, name: "CRS" },
+                { src: crs, name: lang === "ar" ? "هيئة الإغاثة الكاثوليكية" : "CRS" },
               ].map((partner, idx) => (
                 <div key={idx} className="flex flex-col items-center gap-3 group/p transition-all duration-300 hover:scale-110">
                   <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white/5 p-3 flex items-center justify-center border border-white/5 group-hover/p:bg-white/10 group-hover/p:border-white/20 transition-all shadow-lg overflow-hidden">
